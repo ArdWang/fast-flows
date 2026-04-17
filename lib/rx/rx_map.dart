@@ -10,8 +10,6 @@ class RxMap<K, V> extends ValueNotifier<Map<K, V>> implements RxInterface<Map<K,
     return super.value;
   }
 
-  set value(Map<K, V> newValue) => super.value = newValue;
-
   @override
   String toString() => value.toString();
 

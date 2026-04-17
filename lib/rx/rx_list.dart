@@ -10,8 +10,6 @@ class RxList<T> extends ValueNotifier<List<T>> implements RxInterface<List<T>> {
     return super.value;
   }
 
-  set value(List<T> newValue) => super.value = newValue;
-
   @override
   String toString() => value.toString();
 

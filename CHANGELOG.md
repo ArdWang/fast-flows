@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.2] - 2026-04-17
+
+### Added
+- Comprehensive test suite with **281 tests** covering all core modules:
+  - Flow Dependency Injection tests (17 tests)
+  - Lifecycle tests for FlowController (5 tests)
+  - Rx types tests (27 tests)
+  - RxList tests (14 tests)
+  - RxMap tests (13 tests)
+  - FlowController/FlowState/FlowLogic tests (14 tests)
+  - Flx and FlxValue widget tests (15 tests)
+  - FlowPage navigation tests (13 tests)
+- `Flow.reset()` method for testing support
+- Test documentation in README.md and README_cn.md
+
+### Fixed
+- Removed unnecessary override in `RxList.value` setter to fix lint warning
+- Removed unnecessary override in `RxMap.value` setter to fix lint warning
+- Fixed doc comment HTML formatting in rx_types_test.dart
+
+### Changed
+- Updated README.md with complete English documentation
+- Updated README_cn.md with test coverage section
+- All tests passing (281/281)
+- Flutter analyze: No issues found
+
 ## [0.0.1] - 2026-04-17
 
 ### Added

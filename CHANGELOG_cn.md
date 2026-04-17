@@ -5,6 +5,32 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)，
 本项目遵循 [语义化版本](https://semver.org/spec/v2.0.0.html)。
 
+## [0.0.2] - 2026-04-17
+
+### 新增
+- 全面的测试套件，包含 **281 个测试**，覆盖所有核心模块：
+  - Flow 依赖注入测试（17 个测试）
+  - FlowController 生命周期测试（5 个测试）
+  - Rx 类型测试（27 个测试）
+  - RxList 测试（14 个测试）
+  - RxMap 测试（13 个测试）
+  - FlowController/FlowState/FlowLogic 测试（14 个测试）
+  - Flx 和 FlxValue 小组件测试（15 个测试）
+  - FlowPage 导航测试（13 个测试）
+- `Flow.reset()` 方法用于测试支持
+- README.md 和 README_cn.md 中的测试文档
+
+### 修复
+- 移除了 `RxList.value` setter 中不必要的 override，修复 lint 警告
+- 移除了 `RxMap.value` setter 中不必要的 override，修复 lint 警告
+- 修复了 rx_types_test.dart 中的 doc comment HTML 格式问题
+
+### 更改
+- 更新 README.md 为完整的英文文档
+- 更新 README_cn.md 添加测试覆盖章节
+- 所有测试通过（281/281）
+- Flutter analyze：无问题（No issues found）
+
 ## [0.0.1] - 2026-04-17
 
 ### 新增
