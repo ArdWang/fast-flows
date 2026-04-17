@@ -52,3 +52,4 @@ app.*.map.json
 # IDE and editor settings
 .claude/
 .vscode/
+/.claude
