@@ -48,3 +48,7 @@ app.*.map.json
 # Fast Flows specific
 /assets/images/*.png
 !/assets/images/flows.png
+
+# IDE and editor settings
+.claude/
+.vscode/

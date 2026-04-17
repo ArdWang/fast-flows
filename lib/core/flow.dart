@@ -124,6 +124,11 @@ class Flow {
     return true;
   }
 
+  /// Reset all dependencies (useful for testing)
+  static void reset() {
+    _dependencies.clear();
+  }
+
   /// Navigate to a page
   static Future<T?> to<T>(Widget page, {FlowBinding? binding}) async {
     if (binding != null) {
