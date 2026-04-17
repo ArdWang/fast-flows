@@ -1,0 +1,40 @@
+name: fast_flows_example
+description: "Fast Flows Framework Example App - Demonstrates state management, dependency injection, and routing."
+publish_to: 'none'
+version: 0.0.1+1
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  fast_flows:
+    path: ../
+  cupertino_icons: ^1.0.8
+  logger: ^2.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/flows.png"
+  min_sdk_android: 21
+  windows:
+    generate: true
+    image_path: "assets/images/flows.png"
+    icon_size: 256
+  macos:
+    generate: true
+    image_path: "assets/images/flows.png"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
