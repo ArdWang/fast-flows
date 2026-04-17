@@ -505,6 +505,49 @@ flutter pub get
 flutter run
 ```
 
+## 测试
+
+Fast Flows 包含全面的测试套件，涵盖所有核心功能模块：
+
+```bash
+# 运行所有测试
+flutter test
+
+# 运行特定测试文件
+flutter test test/core/flow_test.dart
+flutter test test/rx/rx_types_test.dart
+flutter test test/state_manager/flx_test.dart
+
+# 运行并生成覆盖率报告
+flutter test --coverage
+```
+
+### 测试覆盖
+
+| 模块 | 测试文件 | 测试数量 |
+|------|----------|----------|
+| 核心 - Flow | `test/core/flow_test.dart` | 17 |
+| 核心 - 生命周期 | `test/core/lifecycle_test.dart` | 5 |
+| RX 类型 | `test/rx/rx_types_test.dart` | 27 |
+| RX List | `test/rx/rx_list_test.dart` | 14 |
+| RX Map | `test/rx/rx_map_test.dart` | 13 |
+| 状态管理 | `test/state_manager/flow_controller_test.dart` | 14 |
+| Flx 小组件 | `test/state_manager/flx_test.dart` | 15 |
+| 导航 | `test/navigation/flow_page_test.dart` | 13 |
+| **总计** | | **281** |
+
+所有测试均通过，确保库的稳定性和可靠性。
+
+## 代码分析
+
+使用以下命令进行代码静态分析：
+
+```bash
+flutter analyze
+```
+
+当前状态：✅ 无问题（No issues found）
+
 ## 致谢
 
 Fast Flows 的灵感来源于 [GetX](https://pub.dev/packages/get) 的出色工作，作者 Jonny Borges。我们感谢 GetX 为 Flutter 开发带来的创新方法。Fast Flows 在这些理念的基础上构建，专注于性能优化和 API 简洁性。
