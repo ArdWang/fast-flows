@@ -173,6 +173,11 @@ class HomePage extends StatelessWidget {
               onPressed: () => Flow.toNamed('/perf-test'),
               child: const Text('Performance Test'),
             ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () => Flow.toNamed('/live-chart'),
+              child: const Text('Live Temperature Chart'),
+            ),
           ],
         ),
       ),
