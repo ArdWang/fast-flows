@@ -8,6 +8,8 @@
 
 一个轻量级、现代化、强大的 Flutter 框架，结合了**状态管理**、**依赖注入**和**路由管理**，提供简洁、高性能且易用的 API。灵感来源于 GetX，但设计更简洁，专注于性能和简单性。
 
+**0.0.3 新增：** Snackbar & Dialog 系统、增强的 RxList API、RxWorkers（ever、once、debounce）、Flow.context 访问。
+
 ## 目录
 
 - [特性](#特性)
@@ -35,6 +37,8 @@
 - **性能优化**：单层观察设计，最大化性能
 - **类型安全**：完整的 Dart 类型系统支持
 - **多平台**：支持 Android、iOS、Web、Windows、macOS 和 Linux
+- **Snackbar & Dialog**：内置通知和对话框系统，支持 `Flow.snackbar()` 和 `Flow.dialog()`
+- **RxWorkers**：响应式 worker，支持 `ever()`、`once()`、`debounce()` 和 `interval()`
 
 ## 安装
 
@@ -44,7 +48,7 @@
 dependencies:
   flutter:
     sdk: flutter
-  fast_flows: ^0.0.1
+  fast_flows: ^0.0.3
 ```
 
 然后运行：
@@ -349,6 +353,151 @@ class DetailPage extends StatelessWidget {
 }
 ```
 
+### Snackbar & Dialog
+
+**显示 Snackbar：**
+
+```dart
+// 简单 snackbar（默认顶部显示）
+Flow.snackbar('标题', '消息内容');
+
+// 底部显示
+Flow.snackbar(
+  '提示',
+  '这是一条消息',
+  snackPosition: SnackPosition.bottom,
+  duration: const Duration(seconds: 3),
+);
+
+// 自定义 snackbar，带图标和颜色
+Flow.snackbar(
+  '成功！',
+  '操作已完成',
+  snackPosition: SnackPosition.top,
+  backgroundColor: Colors.green,
+  icon: const Icon(Icons.check_circle, color: Colors.white),
+);
+
+// 完全自定义的 snackbar
+Flow.rawSnackbar(
+  title: '自定义',
+  message: '完全自定义的 snackbar',
+  backgroundColor: Colors.blue,
+  duration: const Duration(seconds: 5),
+  mainButton: TextButton(
+    onPressed: () => Flow.back(),
+    child: const Text('操作'),
+  ),
+);
+
+// 关闭所有 snackbar
+Flow.closeAllSnackbars();
+```
+
+**显示 Dialog：**
+
+```dart
+// 自定义对话框
+await Flow.dialog(
+  Container(
+    padding: const EdgeInsets.all(24),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+    ),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Icon(Icons.celebration, size: 64),
+        const SizedBox(height: 16),
+        const Text('自定义对话框', style: TextStyle(fontSize: 24)),
+        const SizedBox(height: 16),
+        ElevatedButton(
+          onPressed: () => Flow.back(),
+          child: const Text('关闭'),
+        ),
+      ],
+    ),
+  ),
+);
+
+// 默认警报对话框
+await Flow.defaultDialog(
+  title: '提示',
+  middleText: '这是一个警报对话框',
+  textConfirm: '确定',
+  textCancel: '取消',
+  onConfirm: () {
+    // 处理确认
+    Flow.back();
+  },
+  onCancel: () {
+    // 处理取消
+    Flow.back();
+  },
+);
+
+// 关闭所有对话框
+Flow.closeAllDialogs();
+
+// 检查对话框是否打开
+if (Flow.isDialogOpen) {
+  // 对话框当前已打开
+}
+```
+
+### RxWorkers
+
+RxWorkers 提供响应式 worker 用于监听 observable 变化：
+
+```dart
+// ever() - 每次值变化时执行回调
+final count = 0.obs;
+Worker worker;
+
+@override
+void onInit() {
+  worker = ever(count, (value) {
+    print('Count 变为：$value');
+  });
+}
+
+// once() - 仅在第一次变化时执行回调
+Worker worker = once(count, (value) {
+  print('Count 第一次变为：$value');
+});
+
+// debounce() - 在指定的防抖延迟后执行回调
+final searchQuery = ''.obs;
+Worker worker = debounce(searchQuery, (value) {
+  print('搜索：$value');
+}, time: const Duration(milliseconds: 500));
+
+// interval() - 延迟执行回调
+Worker worker = interval(count, (value) {
+  print('延迟后的值：$value');
+}, delay: const Duration(seconds: 1));
+
+// workers() - 管理多个 worker 的容器
+Workers myWorkers = workers();
+
+@override
+void onInit() {
+  myWorkers.add(ever(count, (v) => print('count: $v')));
+  myWorkers.add(ever(name, (v) => print('name: $v')));
+}
+
+@override
+void onClose() {
+  myWorkers.dispose(); // 一次性处理所有 worker
+  super.onClose();
+}
+
+// Worker 扩展方法
+count.onChanged((value) => print('changed: $value'));
+count.onFirstChange((value) => print('first change: $value'));
+```
+
 ## API 参考
 
 ### Flow（依赖注入）
@@ -361,6 +510,8 @@ class DetailPage extends StatelessWidget {
 | `Flow.isRegistered<T>(name)` | 检查是否已注册 |
 | `Flow.remove<T>(name)` | 移除依赖 |
 | `Flow.disposeAll()` | 移除所有依赖 |
+| `Flow.context` | 获取当前 BuildContext |
+| `Flow.isDialogOpen` | 检查对话框是否打开 |
 
 ### FlowController
 
@@ -377,6 +528,26 @@ class DetailPage extends StatelessWidget {
 | `Rx<T>(value)` | 创建响应式包装器 |
 | `Rxn<T>()` | 创建可空响应式包装器 |
 | `RxList<T>` 构造函数 | 创建响应式 List |
+| `RxMap<K, V>` 构造函数 | 创建响应式 Map |
+
+### RxList 扩展
+
+| 方法 | 描述 |
+|------|------|
+| `isEmpty` | 如果列表为空返回 true |
+| `isNotEmpty` | 如果列表不为空返回 true |
+| `first` | 返回第一个元素 |
+| `last` | 返回最后一个元素 |
+| `firstWhereOrNull(test)` | 返回第一个匹配元素或 null |
+| `lastWhereOrNull(test)` | 返回最后一个匹配元素或 null |
+| `map(mapFn)` | 返回映射后的新 RxList |
+| `where(test)` | 返回过滤后的新 RxList |
+| `sort(compare)` | 排序列表 |
+| `reversed()` | 反转列表 |
+| `addNonNull(item)` | 仅在 item 不为 null 时添加 |
+| `addIf(condition, item)` | 仅在 condition 为 true 时添加 |
+| `assign(item)` | 用单个 item 替换所有元素 |
+| `assignAll(items)` | 用列表替换所有元素 |
 
 ### Flx 小组件
 
@@ -394,6 +565,33 @@ class DetailPage extends StatelessWidget {
 | `Flow.back()` | 返回 |
 | `Flow.off(page)` | 替换当前路由 |
 | `Flow.offAll(page)` | 替换所有路由 |
+
+### Snackbar
+
+| 方法 | 描述 |
+|------|------|
+| `Flow.snackbar(title, message)` | 显示自定义位置的 snackbar |
+| `Flow.rawSnackbar(...)` | 显示完全自定义的 snackbar |
+| `Flow.closeAllSnackbars()` | 关闭所有 snackbar |
+
+### Dialog
+
+| 方法 | 描述 |
+|------|------|
+| `Flow.dialog(widget)` | 显示自定义对话框 |
+| `Flow.defaultDialog(...)` | 显示默认警报对话框 |
+| `Flow.closeAllDialogs()` | 关闭所有对话框 |
+
+### RxWorkers
+
+| 函数 | 描述 |
+|------|------|
+| `ever(observable, callback)` | 每次变化时执行回调 |
+| `once(observable, callback)` | 仅在第一次变化时执行回调 |
+| `debounce(observable, callback, time)` | 防抖延迟后执行回调 |
+| `interval(observable, callback, delay)` | 延迟后执行回调 |
+| `everAll(observables, callback)` | 监听多个 observable |
+| `workers()` | 创建 workers 容器 |
 
 ## 从 GetX 迁移
 

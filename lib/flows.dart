@@ -4,6 +4,7 @@
 /// - Dependency Injection with Flow.put/Flow.find
 /// - Reactive state management with Rx types and Flx widget
 /// - Route management with Flow.to/Flow.toNamed
+/// - Snackbar and Dialog utilities with Flow.snackbar/Flow.dialog
 /// - Logic/State/View separation pattern
 ///
 /// IMPORTANT: Flx is designed for SINGLE-LEVEL observation only.
@@ -26,3 +27,5 @@ export 'state_manager/flx.dart';
 // Navigation
 export 'navigation/flow_page.dart';
 export 'navigation/flow_app.dart';
+export 'navigation/snackbar.dart';
+export 'navigation/dialog.dart';

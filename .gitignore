@@ -53,3 +53,5 @@ app.*.map.json
 .claude/
 .vscode/
 /.claude
+.claude/settings.local.json
+/.claude

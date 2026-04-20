@@ -5,31 +5,125 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.3] - 2026-04-20
+
+### Added
+- **Snackbar System** - GetX-like snackbar with `Flow.snackbar()` and `Flow.rawSnackbar()`:
+  - Customizable position (top/bottom) with `SnackPosition`
+  - Customizable style (floating/grounded) with `SnackStyle`
+  - Icon support with pulse animation
+  - Progress indicator support
+  - Custom background colors and gradients
+  - Action button support
+  - Dismiss control with `Flow.closeAllSnackbars()`
+  - `SnackbarController` for programmatic control
+- **Dialog System** - GetX-like dialogs with `Flow.dialog()` and `Flow.defaultDialog()`:
+  - Custom dialog widgets with `Flow.dialog()`
+  - Pre-built alert dialogs with `Flow.defaultDialog()`
+  - Configurable barrier color and dismissibility
+  - Custom transition animations
+  - Close all dialogs with `Flow.closeAllDialogs()`
+- **Flow.context** - Access current BuildContext from anywhere
+- **Flow.isDialogOpen** - Check if a dialog is currently open
+- **Enhanced RxList API**:
+  - `isEmpty`, `isNotEmpty` properties
+  - `first`, `last` accessors
+  - `firstWhereOrNull()`, `lastWhereOrNull()` methods
+  - `map()`, `where()` transformation methods
+  - `sort()`, `reversed()` operations
+  - `addNonNull()`, `addIf()`, `addAllIf()` conditional methods
+  - `assign()`, `assignAll()` replacement methods
+  - `contains()`, `indexOf()` utility methods
+- **Enhanced RxWorkers**:
+  - `ever()` - Execute callback on every value change
+  - `once()` - Execute callback only on first change
+  - `interval()` - Execute callback after delay of no changes
+  - `debounce()` - Execute callback after specified delay
+  - `everAll()` - Listen to multiple observables
+  - `workers()` - Container to manage multiple workers
+  - `Worker` class for subscription management
+  - Extension methods `onChanged()` and `onFirstChange()`
+- **Flow.refresh()** - Trigger UI rebuild on demand
+- **New Features Test Page** - Example page demonstrating all new features
+- Comprehensive test suite with **281 tests** covering all core modules
+
+### Changed
+- Moved snackbar and dialog functionality into Flow core class
+- Enhanced Flow class with context access and dialog state tracking
+- Updated example app with new features test page
+- All tests passing (281/281)
+
+### Fixed
+- RxList `remove()` now returns bool indicating success
+- RxList `removeAt()` now returns the removed element
+- Added `Flow.reset()` method for testing support
+- Snackbar positioning - now correctly displays at top/bottom
+- Dialog size constraint - custom dialogs now have max width of 400px
+- Various lint warnings and info messages
+
+### Performance
+- Zero boilerplate - no StreamControllers, ChangeNotifiers, or InheritedWidgets required
+- Efficient widget rebuilding with FlxValue for single-value observation
+- Single-level observation design for optimal performance
+
 ## [0.0.2] - 2026-04-17
 
 ### Added
-- Comprehensive test suite with **281 tests** covering all core modules:
-  - Flow Dependency Injection tests (17 tests)
-  - Lifecycle tests for FlowController (5 tests)
-  - Rx types tests (27 tests)
-  - RxList tests (14 tests)
-  - RxMap tests (13 tests)
-  - FlowController/FlowState/FlowLogic tests (14 tests)
-  - Flx and FlxValue widget tests (15 tests)
-  - FlowPage navigation tests (13 tests)
-- `Flow.reset()` method for testing support
-- Test documentation in README.md and README_cn.md
-
-### Fixed
-- Removed unnecessary override in `RxList.value` setter to fix lint warning
-- Removed unnecessary override in `RxMap.value` setter to fix lint warning
-- Fixed doc comment HTML formatting in rx_types_test.dart
+- **Snackbar System** - GetX-like snackbar with `Flow.snackbar()` and `Flow.rawSnackbar()`:
+  - Customizable position (top/bottom) with `SnackPosition`
+  - Customizable style (floating/grounded) with `SnackStyle`
+  - Icon support with pulse animation
+  - Progress indicator support
+  - Custom background colors and gradients
+  - Action button support
+  - Dismiss control with `Flow.closeAllSnackbars()`
+  - `SnackbarController` for programmatic control
+- **Dialog System** - GetX-like dialogs with `Flow.dialog()` and `Flow.defaultDialog()`:
+  - Custom dialog widgets with `Flow.dialog()`
+  - Pre-built alert dialogs with `Flow.defaultDialog()`
+  - Configurable barrier color and dismissibility
+  - Custom transition animations
+  - Close all dialogs with `Flow.closeAllDialogs()`
+- **Flow.context** - Access current BuildContext from anywhere
+- **Flow.isDialogOpen** - Check if a dialog is currently open
+- **Enhanced RxList API**:
+  - `isEmpty`, `isNotEmpty` properties
+  - `first`, `last` accessors
+  - `firstWhereOrNull()`, `lastWhereOrNull()` methods
+  - `map()`, `where()` transformation methods
+  - `sort()`, `reversed()` operations
+  - `addNonNull()`, `addIf()`, `addAllIf()` conditional methods
+  - `assign()`, `assignAll()` replacement methods
+  - `contains()`, `indexOf()` utility methods
+- **Enhanced RxWorkers**:
+  - `ever()` - Execute callback on every value change
+  - `once()` - Execute callback only on first change
+  - `interval()` - Execute callback after delay of no changes
+  - `debounce()` - Execute callback after specified delay
+  - `everAll()` - Listen to multiple observables
+  - `workers()` - Container to manage multiple workers
+  - `Worker` class for subscription management
+  - Extension methods `onChanged()` and `onFirstChange()`
+- **Flow.refresh()** - Trigger UI rebuild on demand
+- **New Features Test Page** - Example page demonstrating all new features
+- Comprehensive test suite with **281 tests** covering all core modules
 
 ### Changed
-- Updated README.md with complete English documentation
-- Updated README_cn.md with test coverage section
+- Moved snackbar and dialog functionality into Flow core class
+- Enhanced Flow class with context access and dialog state tracking
+- Updated example app with new features test page
 - All tests passing (281/281)
-- Flutter analyze: No issues found
+
+### Fixed
+- RxList `remove()` now returns bool indicating success
+- RxList `removeAt()` now returns the removed element
+- Added `Flow.reset()` method for testing support
+- Various lint warnings and info messages
+
+### Performance
+- Zero boilerplate - no StreamControllers, ChangeNotifiers, or InheritedWidgets required
+- Efficient widget rebuilding with FlxValue for single-value observation
+- Single-level observation design for optimal performance
 
 ## [0.0.1] - 2026-04-17
 

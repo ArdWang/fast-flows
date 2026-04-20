@@ -11,6 +11,7 @@ import 'package:fast_flows/flows.dart';
 import '../logic/home_logic.dart';
 import '../main.dart' show AppColors;
 import '../utils/pretty_print.dart';
+import 'new_features_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -177,6 +178,11 @@ class HomePage extends StatelessWidget {
             ElevatedButton(
               onPressed: () => Flow.toNamed('/live-chart'),
               child: const Text('Live Temperature Chart'),
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () => Flow.to(const NewFeaturesPage()),
+              child: const Text('New Features Test'),
             ),
           ],
         ),

@@ -8,6 +8,8 @@
 
 A lightweight, modern, and powerful Flutter framework combining **state management**, **dependency injection**, and **route management** with a clean, high-performance, and easy-to-use API. Inspired by GetX, but with a cleaner design focused on performance and simplicity.
 
+**New in 0.0.3:** Snackbar & Dialog system, enhanced RxList API, RxWorkers (ever, once, debounce), and Flow.context access.
+
 ## Table of Contents
 
 - [Features](#features)
@@ -37,6 +39,8 @@ A lightweight, modern, and powerful Flutter framework combining **state manageme
 - **Performance Optimized**: Single-level observation design for maximum performance
 - **Type Safe**: Full Dart type system support
 - **Multi-platform**: Supports Android, iOS, Web, Windows, macOS, and Linux
+- **Snackbar & Dialog**: Built-in notification and dialog system with `Flow.snackbar()` and `Flow.dialog()`
+- **RxWorkers**: Reactive workers with `ever()`, `once()`, `debounce()`, and `interval()`
 
 ## Installation
 
@@ -46,7 +50,7 @@ Add this to your `pubspec.yaml`:
 dependencies:
   flutter:
     sdk: flutter
-  fast_flows: ^0.0.1
+  fast_flows: ^0.0.3
 ```
 
 Then run:
@@ -351,6 +355,151 @@ class DetailPage extends StatelessWidget {
 }
 ```
 
+### Snackbar & Dialog
+
+**Show a Snackbar:**
+
+```dart
+// Simple snackbar (displays at top by default)
+Flow.snackbar('Title', 'Message content');
+
+// Snackbar at bottom
+Flow.snackbar(
+  'Info',
+  'This is a message',
+  snackPosition: SnackPosition.bottom,
+  duration: const Duration(seconds: 3),
+);
+
+// Custom snackbar with icon and colors
+Flow.snackbar(
+  'Success!',
+  'Operation completed successfully',
+  snackPosition: SnackPosition.top,
+  backgroundColor: Colors.green,
+  icon: const Icon(Icons.check_circle, color: Colors.white),
+);
+
+// Raw snackbar with full customization
+Flow.rawSnackbar(
+  title: 'Custom',
+  message: 'Fully customized snackbar',
+  backgroundColor: Colors.blue,
+  duration: const Duration(seconds: 5),
+  mainButton: TextButton(
+    onPressed: () => Flow.back(),
+    child: const Text('ACTION'),
+  ),
+);
+
+// Close all snackbars
+Flow.closeAllSnackbars();
+```
+
+**Show a Dialog:**
+
+```dart
+// Custom dialog
+await Flow.dialog(
+  Container(
+    padding: const EdgeInsets.all(24),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+    ),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Icon(Icons.celebration, size: 64),
+        const SizedBox(height: 16),
+        const Text('Custom Dialog', style: TextStyle(fontSize: 24)),
+        const SizedBox(height: 16),
+        ElevatedButton(
+          onPressed: () => Flow.back(),
+          child: const Text('Close'),
+        ),
+      ],
+    ),
+  ),
+);
+
+// Default alert dialog
+await Flow.defaultDialog(
+  title: 'Alert',
+  middleText: 'This is an alert dialog',
+  textConfirm: 'OK',
+  textCancel: 'Cancel',
+  onConfirm: () {
+    // Handle confirm
+    Flow.back();
+  },
+  onCancel: () {
+    // Handle cancel
+    Flow.back();
+  },
+);
+
+// Close all dialogs
+Flow.closeAllDialogs();
+
+// Check if dialog is open
+if (Flow.isDialogOpen) {
+  // Dialog is currently open
+}
+```
+
+### RxWorkers
+
+RxWorkers provide reactive workers for listening to observable changes:
+
+```dart
+// ever() - Execute callback on every value change
+final count = 0.obs;
+Worker worker;
+
+@override
+void onInit() {
+  worker = ever(count, (value) {
+    print('Count changed to: $value');
+  });
+}
+
+// once() - Execute callback only on first change
+Worker worker = once(count, (value) {
+  print('Count first changed to: $value');
+});
+
+// debounce() - Execute callback after specified delay of no changes
+final searchQuery = ''.obs;
+Worker worker = debounce(searchQuery, (value) {
+  print('Search for: $value');
+}, time: const Duration(milliseconds: 500));
+
+// interval() - Execute callback after delay
+Worker worker = interval(count, (value) {
+  print('Value after interval: $value');
+}, delay: const Duration(seconds: 1));
+
+// workers() - Container to manage multiple workers
+Workers myWorkers = workers();
+
+@override
+void onInit() {
+  myWorkers.add(ever(count, (v) => print('count: $v')));
+  myWorkers.add(ever(name, (v) => print('name: $v')));
+}
+
+@override
+void onClose() {
+  myWorkers.dispose(); // Dispose all workers at once
+  super.onClose();
+}
+
+// Worker extension methods
+count.onChanged((value) => print('changed: $value'));
+count.onFirstChange((value) => print('first change: $value'));
+```
+
 ## API Reference
 
 ### Flow (Dependency Injection)
@@ -363,6 +512,8 @@ class DetailPage extends StatelessWidget {
 | `Flow.isRegistered<T>(name)` | Check if registered |
 | `Flow.remove<T>(name)` | Remove a dependency |
 | `Flow.disposeAll()` | Remove all dependencies |
+| `Flow.context` | Get current BuildContext |
+| `Flow.isDialogOpen` | Check if dialog is open |
 
 ### FlowController
 
@@ -379,6 +530,26 @@ class DetailPage extends StatelessWidget {
 | `Rx<T>(value)` | Create reactive wrapper |
 | `Rxn<T>()` | Create nullable reactive wrapper |
 | `RxList<T>` constructor | Create reactive List |
+| `RxMap<K, V>` constructor | Create reactive Map |
+
+### RxList Extensions
+
+| Method | Description |
+|--------|-------------|
+| `isEmpty` | Returns true if list is empty |
+| `isNotEmpty` | Returns true if list is not empty |
+| `first` | Returns first element |
+| `last` | Returns last element |
+| `firstWhereOrNull(test)` | Returns first matching element or null |
+| `lastWhereOrNull(test)` | Returns last matching element or null |
+| `map(mapFn)` | Returns new RxList with mapped values |
+| `where(test)` | Returns new RxList with filtered values |
+| `sort(compare)` | Sorts the list |
+| `reversed()` | Reverses the list |
+| `addNonNull(item)` | Adds item only if not null |
+| `addIf(condition, item)` | Adds item only if condition is true |
+| `assign(item)` | Replaces all items with single item |
+| `assignAll(items)` | Replaces all items with list |
 
 ### Flx Widgets
 
@@ -396,6 +567,33 @@ class DetailPage extends StatelessWidget {
 | `Flow.back()` | Go back |
 | `Flow.off(page)` | Replace current route |
 | `Flow.offAll(page)` | Replace all routes |
+
+### Snackbar
+
+| Method | Description |
+|--------|-------------|
+| `Flow.snackbar(title, message)` | Show snackbar with custom position |
+| `Flow.rawSnackbar(...)` | Show fully customized snackbar |
+| `Flow.closeAllSnackbars()` | Close all open snackbars |
+
+### Dialog
+
+| Method | Description |
+|--------|-------------|
+| `Flow.dialog(widget)` | Show custom dialog |
+| `Flow.defaultDialog(...)` | Show default alert dialog |
+| `Flow.closeAllDialogs()` | Close all open dialogs |
+
+### RxWorkers
+
+| Function | Description |
+|----------|-------------|
+| `ever(observable, callback)` | Execute callback on every change |
+| `once(observable, callback)` | Execute callback on first change only |
+| `debounce(observable, callback, time)` | Execute callback after delay of no changes |
+| `interval(observable, callback, delay)` | Execute callback after delay |
+| `everAll(observables, callback)` | Listen to multiple observables |
+| `workers()` | Create workers container |
 
 ## Migrating from GetX
 

@@ -1,6 +1,6 @@
 name: fast_flows
 description: "A light, modern and powerful Flutter framework combining state management, dependency injection, and route management - inspired by GetX but with a cleaner API."
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/ArdWang/fast-flows
 repository: https://github.com/ArdWang/fast-flows
 issue_tracker: https://github.com/ArdWang/fast-flows/issues
