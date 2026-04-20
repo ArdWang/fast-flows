@@ -500,6 +500,36 @@ count.onChanged((value) => print('changed: $value'));
 count.onFirstChange((value) => print('first change: $value'));
 ```
 
+#### RxWorkers Use Cases
+
+| Scenario | Recommended Worker | Example |
+|----------|-------------------|---------|
+| Log/Debug | `ever()` | `ever(count, (v) => print('count: $v'))` |
+| Auto-save data | `debounce()` | `debounce(query, (v) => save(v), time: 500ms)` |
+| Search box debounce | `debounce()` | Wait for user to stop typing |
+| First load data | `once()` | `once(isLoading, (v) => fetchData())` |
+| Page init listen | `once()` | Execute only on first state change |
+| Delayed operation | `interval()` | `interval(score, (v) => save(v), delay: 1s)` |
+| Multiple listeners | `workers()` | Batch manage and dispose |
+
+#### Difference between Flx and Workers
+
+| Feature | Flx / FlxValue | Workers |
+|---------|----------------|---------|
+| Purpose | **UI rebuild** | **Execute logic** |
+| When Rx changes | Rebuilds widget tree | Executes callback (no UI rebuild) |
+| Use case | Display reactive data | Logging, API calls, save data |
+
+```dart
+// UI rebuild - use Flx
+Flx(() => Text('Count: ${logic.count.value}'));
+
+// Execute logic - use Worker
+ever(count, (value) {
+  analytics.log('Count changed: $value'); // No UI rebuild, just execute logic
+});
+```
+
 ## API Reference
 
 ### Flow (Dependency Injection)

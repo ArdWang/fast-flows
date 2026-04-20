@@ -498,6 +498,36 @@ count.onChanged((value) => print('changed: $value'));
 count.onFirstChange((value) => print('first change: $value'));
 ```
 
+#### RxWorkers 使用场景
+
+| 场景 | 推荐 Worker | 示例 |
+|------|------------|------|
+| 日志记录/调试 | `ever()` | `ever(count, (v) => print('count: $v'))` |
+| 自动保存数据 | `debounce()` | `debounce(query, (v) => save(v), time: 500ms)` |
+| 搜索框防抖 | `debounce()` | 等待用户停止输入后再搜索 |
+| 首次加载数据 | `once()` | `once(isLoading, (v) => fetchData())` |
+| 页面初始化监听 | `once()` | 只在状态第一次变化时执行 |
+| 延迟操作 | `interval()` | `interval(score, (v) => save(v), delay: 1s)` |
+| 多个监听统一管理 | `workers()` | 批量管理和销毁 |
+
+#### Flx 与 Workers 的区别
+
+| 特性 | Flx / FlxValue | Workers |
+|------|----------------|---------|
+| 用途 | **UI 重建** | **执行逻辑** |
+| Rx 变化时 | 重建 widget 树 | 执行回调（不重建 UI） |
+| 使用场景 | 显示响应式数据 | 日志记录、API 调用、保存数据 |
+
+```dart
+// UI 重建 - 使用 Flx
+Flx(() => Text('计数：${logic.count.value}'));
+
+// 执行逻辑 - 使用 Worker
+ever(count, (value) {
+  analytics.log('计数变化：$value'); // 不重建 UI，只执行逻辑
+});
+```
+
 ## API 参考
 
 ### Flow（依赖注入）
