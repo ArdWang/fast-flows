@@ -2,9 +2,9 @@
 
 This example application demonstrates all the features of the Fast Flows framework:
 
-- **Dependency Injection** with `Flow.put`/`Flow.find`
+- **Dependency Injection** with `Flows.put`/`Flows.find`
 - **Reactive state management** with `Rx` types and `Flx` widgets
-- **Route management** with `Flow.to`/`Flow.toNamed`
+- **Route management** with `Flows.to`/`Flows.toNamed`
 - **Logic/State/View separation pattern**
 - **Light/Dark theme switching**
 - **Custom app icon** (flows.png)

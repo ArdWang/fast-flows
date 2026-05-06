@@ -1,16 +1,16 @@
-/// FlowPage Tests
+/// FlowsPage Tests
 ///
-/// Tests for FlowPage and navigation functionality
+/// Tests for FlowsPage and navigation functionality
 library;
 
-import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fast_flows/flows.dart';
 
 void main() {
-  group('FlowPage', () {
-    test('FlowPage creates with name and page builder', () {
-      final flowPage = FlowPage(
+  group('FlowsPage', () {
+    test('FlowsPage creates with name and page builder', () {
+      final flowPage = FlowsPage(
         name: '/home',
         page: () => const Scaffold(body: Text('Home')),
       );
@@ -20,8 +20,8 @@ void main() {
       expect(flowPage.transition, equals(TransitionType.none));
     });
 
-    test('FlowPage with fade transition', () {
-      final flowPage = FlowPage(
+    test('FlowsPage with fade transition', () {
+      final flowPage = FlowsPage(
         name: '/fade',
         page: () => const Scaffold(),
         transition: TransitionType.fade,
@@ -30,8 +30,8 @@ void main() {
       expect(flowPage.transition, equals(TransitionType.fade));
     });
 
-    test('FlowPage with slideLeft transition', () {
-      final flowPage = FlowPage(
+    test('FlowsPage with slideLeft transition', () {
+      final flowPage = FlowsPage(
         name: '/slideLeft',
         page: () => const Scaffold(),
         transition: TransitionType.slideLeft,
@@ -40,8 +40,8 @@ void main() {
       expect(flowPage.transition, equals(TransitionType.slideLeft));
     });
 
-    test('FlowPage with slideRight transition', () {
-      final flowPage = FlowPage(
+    test('FlowsPage with slideRight transition', () {
+      final flowPage = FlowsPage(
         name: '/slideRight',
         page: () => const Scaffold(),
         transition: TransitionType.slideRight,
@@ -50,8 +50,8 @@ void main() {
       expect(flowPage.transition, equals(TransitionType.slideRight));
     });
 
-    test('FlowPage with slideUp transition', () {
-      final flowPage = FlowPage(
+    test('FlowsPage with slideUp transition', () {
+      final flowPage = FlowsPage(
         name: '/slideUp',
         page: () => const Scaffold(),
         transition: TransitionType.slideUp,
@@ -60,8 +60,8 @@ void main() {
       expect(flowPage.transition, equals(TransitionType.slideUp));
     });
 
-    test('FlowPage with slideDown transition', () {
-      final flowPage = FlowPage(
+    test('FlowsPage with slideDown transition', () {
+      final flowPage = FlowsPage(
         name: '/slideDown',
         page: () => const Scaffold(),
         transition: TransitionType.slideDown,
@@ -70,8 +70,8 @@ void main() {
       expect(flowPage.transition, equals(TransitionType.slideDown));
     });
 
-    test('FlowPage with zoom transition', () {
-      final flowPage = FlowPage(
+    test('FlowsPage with zoom transition', () {
+      final flowPage = FlowsPage(
         name: '/zoom',
         page: () => const Scaffold(),
         transition: TransitionType.zoom,
@@ -80,8 +80,8 @@ void main() {
       expect(flowPage.transition, equals(TransitionType.zoom));
     });
 
-    test('FlowPage createRoute returns MaterialPageRoute', () {
-      final flowPage = FlowPage(
+    test('FlowsPage createRoute returns MaterialPageRoute', () {
+      final flowPage = FlowsPage(
         name: '/home',
         page: () => const Scaffold(body: Text('Home')),
       );
@@ -90,8 +90,8 @@ void main() {
       expect(route, isA<MaterialPageRoute>());
     });
 
-    test('FlowPage createPageRoute returns PageRouteBuilder for fade', () {
-      final flowPage = FlowPage(
+    test('FlowsPage createPageRoute returns PageRouteBuilder for fade', () {
+      final flowPage = FlowsPage(
         name: '/fade',
         page: () => const Scaffold(),
         transition: TransitionType.fade,
@@ -102,16 +102,16 @@ void main() {
     });
   });
 
-  group('FlowPage Navigation', () {
-    testWidgets('FlowMaterialApp with FlowPage navigates', (WidgetTester tester) async {
+  group('FlowsPage Navigation', () {
+    testWidgets('FlowsMaterialApp with FlowsPage navigates', (WidgetTester tester) async {
       await tester.pumpWidget(
-        FlowMaterialApp(
+        FlowsMaterialApp(
           pages: [
-            FlowPage(
+            FlowsPage(
               name: '/home',
               page: () => const HomePage(),
             ),
-            FlowPage(
+            FlowsPage(
               name: '/detail',
               page: () => const DetailPage(),
             ),
@@ -130,15 +130,15 @@ void main() {
       expect(find.text('Detail Page'), findsOneWidget);
     });
 
-    testWidgets('Flow.back returns to previous page', (WidgetTester tester) async {
+    testWidgets('Flows.back returns to previous page', (WidgetTester tester) async {
       await tester.pumpWidget(
-        FlowMaterialApp(
+        FlowsMaterialApp(
           pages: [
-            FlowPage(
+            FlowsPage(
               name: '/home',
               page: () => const HomePage(),
             ),
-            FlowPage(
+            FlowsPage(
               name: '/detail',
               page: () => const DetailPage(),
             ),
@@ -161,12 +161,12 @@ void main() {
     });
   });
 
-  group('FlowPage Transitions', () {
-    testWidgets('FlowPage with fade transition builds', (WidgetTester tester) async {
+  group('FlowsPage Transitions', () {
+    testWidgets('FlowsPage with fade transition builds', (WidgetTester tester) async {
       await tester.pumpWidget(
-        FlowMaterialApp(
+        FlowsMaterialApp(
           pages: [
-            FlowPage(
+            FlowsPage(
               name: '/fade',
               page: () => const Scaffold(body: Text('Fade Page')),
               transition: TransitionType.fade,
@@ -179,11 +179,11 @@ void main() {
       expect(find.text('Fade Page'), findsOneWidget);
     });
 
-    testWidgets('FlowPage with slideLeft transition builds', (WidgetTester tester) async {
+    testWidgets('FlowsPage with slideLeft transition builds', (WidgetTester tester) async {
       await tester.pumpWidget(
-        FlowMaterialApp(
+        FlowsMaterialApp(
           pages: [
-            FlowPage(
+            FlowsPage(
               name: '/slideLeft',
               page: () => const Scaffold(body: Text('SlideLeft Page')),
               transition: TransitionType.slideLeft,
@@ -196,11 +196,11 @@ void main() {
       expect(find.text('SlideLeft Page'), findsOneWidget);
     });
 
-    testWidgets('FlowPage with zoom transition builds', (WidgetTester tester) async {
+    testWidgets('FlowsPage with zoom transition builds', (WidgetTester tester) async {
       await tester.pumpWidget(
-        FlowMaterialApp(
+        FlowsMaterialApp(
           pages: [
-            FlowPage(
+            FlowsPage(
               name: '/zoom',
               page: () => const Scaffold(body: Text('Zoom Page')),
               transition: TransitionType.zoom,
@@ -214,16 +214,16 @@ void main() {
     });
   });
 
-  group('Flow Navigation Static Methods', () {
-    testWidgets('Flow.toNamed navigates', (WidgetTester tester) async {
+  group('Flows Navigation Static Methods', () {
+    testWidgets('Flows.toNamed navigates', (WidgetTester tester) async {
       await tester.pumpWidget(
-        FlowMaterialApp(
+        FlowsMaterialApp(
           pages: [
-            FlowPage(
+            FlowsPage(
               name: '/home',
               page: () => const HomePage(),
             ),
-            FlowPage(
+            FlowsPage(
               name: '/other',
               page: () => const Scaffold(body: Text('Other Page')),
             ),
@@ -232,21 +232,21 @@ void main() {
         ),
       );
 
-      Flow.toNamed('/other');
+      Flows.toNamed('/other');
       await tester.pumpAndSettle();
 
       expect(find.text('Other Page'), findsOneWidget);
     });
 
-    testWidgets('Flow.back closes current route', (WidgetTester tester) async {
+    testWidgets('Flows.back closes current route', (WidgetTester tester) async {
       await tester.pumpWidget(
-        FlowMaterialApp(
+        FlowsMaterialApp(
           pages: [
-            FlowPage(
+            FlowsPage(
               name: '/home',
               page: () => const HomePage(),
             ),
-            FlowPage(
+            FlowsPage(
               name: '/detail',
               page: () => const DetailPage(),
             ),
@@ -260,21 +260,21 @@ void main() {
       await tester.pumpAndSettle();
 
       // Then go back
-      Flow.back();
+      Flows.back();
       await tester.pumpAndSettle();
 
       expect(find.text('Home Page'), findsOneWidget);
     });
 
-    testWidgets('Flow.to with page builder', (WidgetTester tester) async {
+    testWidgets('Flows.to with page builder', (WidgetTester tester) async {
       await tester.pumpWidget(
-        FlowMaterialApp(
+        FlowsMaterialApp(
           pages: [
-            FlowPage(
+            FlowsPage(
               name: '/home',
               page: () => const Scaffold(body: Text('Root')),
             ),
-            FlowPage(
+            FlowsPage(
               name: '/new',
               page: () => const Scaffold(body: Text('New Page')),
             ),
@@ -284,7 +284,7 @@ void main() {
       );
 
       // Push a new page
-      Flow.toNamed('/new');
+      Flows.toNamed('/new');
       await tester.pumpAndSettle();
 
       expect(find.text('New Page'), findsOneWidget);
@@ -303,7 +303,7 @@ class HomePage extends StatelessWidget {
           const Text('Home Page'),
           ElevatedButton(
             key: const Key('navigateButton'),
-            onPressed: () => Flow.toNamed('/detail'),
+            onPressed: () => Flows.toNamed('/detail'),
             child: const Text('Go to Detail'),
           ),
         ],
@@ -323,7 +323,7 @@ class DetailPage extends StatelessWidget {
           const Text('Detail Page'),
           ElevatedButton(
             key: const Key('backButton'),
-            onPressed: () => Flow.back(),
+            onPressed: () => Flows.back(),
             child: const Text('Go Back'),
           ),
         ],

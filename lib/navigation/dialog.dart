@@ -3,9 +3,9 @@ library;
 
 import 'package:flutter/material.dart';
 
-/// Flow Dialog Route
-class FlowDialogRoute<T> extends PopupRoute<T> {
-  FlowDialogRoute({
+/// Flows Dialog Route
+class FlowsDialogRoute<T> extends PopupRoute<T> {
+  FlowsDialogRoute({
     required RoutePageBuilder pageBuilder,
     bool barrierDismissible = true,
     String? barrierLabel,

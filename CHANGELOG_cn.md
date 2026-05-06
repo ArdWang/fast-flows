@@ -5,26 +5,56 @@
 格式基于 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)，
 本项目遵循 [语义化版本](https://semver.org/spec/v2.0.0.html)。
 
+## [0.0.4] - 2026-05-05
+
+### 更改
+
+- **破坏性变更**：将 `Flow` 类重命名为 `Flows`，避免与 Flutter 内置的 `Flow` 小组件冲突
+  - `Flow.put()` → `Flows.put()`
+  - `Flow.find()` → `Flows.find()`
+  - `Flow.to()` → `Flows.to()`
+  - `Flow.back()` → `Flows.back()`
+  - 所有其他 `Flow.*` 方法重命名为 `Flows.*`
+- 将 `FlowBinding` 重命名为 `FlowsBinding`
+- 将所有 `Flow*` 前缀的类重命名为 `Flows*`：
+  - `FlowMaterialApp` → `FlowsMaterialApp`
+  - `FlowCupertinoApp` → `FlowsCupertinoApp`
+  - `FlowPage` → `FlowsPage`
+  - `FlowSnackBar` → `FlowsSnackBar`
+  - `FlowDialogRoute` → `FlowsDialogRoute`
+- 从所有导入中移除 `hide Flow`（不再需要）
+- 将所有库文件从 `flow*.dart` 重命名为 `flows*.dart`：
+  - `lib/core/flow.dart` → `lib/core/flows.dart`
+  - `lib/state_manager/flow_controller.dart` → `lib/state_manager/flows_controller.dart`
+  - `lib/state_manager/flow_state.dart` → `lib/state_manager/flows_state.dart`
+  - `lib/state_manager/flow_logic.dart` → `lib/state_manager/flows_logic.dart`
+  - `lib/state_manager/flow_view.dart` → `lib/state_manager/flows_view.dart`
+  - `lib/navigation/flow_page.dart` → `lib/navigation/flows_page.dart`
+  - `lib/navigation/flow_app.dart` → `lib/navigation/flows_app.dart`
+  - `test/core/flow_test.dart` → `test/core/flows_test.dart`
+  - `test/navigation/flow_page_test.dart` → `test/navigation/flows_page_test.dart`
+  - `test/state_manager/flow_controller_test.dart` → `test/state_manager/flows_controller_test.dart`
+
 ## [0.0.3] - 2026-04-20
 
 ### 新增
-- **Snackbar 系统** - GetX 风格的 snackbar，支持 `Flow.snackbar()` 和 `Flow.rawSnackbar()`：
+- **Snackbar 系统** - GetX 风格的 snackbar，支持 `Flows.snackbar()` 和 `Flows.rawSnackbar()`：
   - 可自定义位置（顶部/底部）与 `SnackPosition`
   - 可自定义样式（浮动/贴地）与 `SnackStyle`
   - 图标支持脉冲动画
   - 进度指示器支持
   - 自定义背景色和渐变
   - 操作按钮支持
-  - 关闭控制与 `Flow.closeAllSnackbars()`
+  - 关闭控制与 `Flows.closeAllSnackbars()`
   - `SnackbarController` 用于编程控制
-- **Dialog 系统** - GetX 风格的对话框，支持 `Flow.dialog()` 和 `Flow.defaultDialog()`：
-  - 自定义对话框小组件与 `Flow.dialog()`
-  - 预定义的警报对话框与 `Flow.defaultDialog()`
+- **Dialog 系统** - GetX 风格的对话框，支持 `Flows.dialog()` 和 `Flows.defaultDialog()`：
+  - 自定义对话框小组件与 `Flows.dialog()`
+  - 预定义的警报对话框与 `Flows.defaultDialog()`
   - 可配置的屏障颜色和可取消性
   - 自定义过渡动画
-  - 关闭所有对话框与 `Flow.closeAllDialogs()`
-- **Flow.context** - 从任何地方访问当前 BuildContext
-- **Flow.isDialogOpen** - 检查对话框是否当前打开
+  - 关闭所有对话框与 `Flows.closeAllDialogs()`
+- **Flows.context** - 从任何地方访问当前 BuildContext
+- **Flows.isDialogOpen** - 检查对话框是否当前打开
 - **增强的 RxList API**：
   - `isEmpty`、`isNotEmpty` 属性
   - `first`、`last` 访问器
@@ -43,7 +73,7 @@
   - `workers()` - 管理多个 worker 的容器
   - `Worker` 类用于订阅管理
   - 扩展方法 `onChanged()` 和 `onFirstChange()`
-- **Flow.refresh()** - 按需触发 UI 重建
+- **Flows.refresh()** - 按需触发 UI 重建
 - **新功能测试页面** - 示例页面展示所有新功能
 - 全面的测试套件，包含 **281 个测试**，覆盖所有核心模块
 
@@ -56,7 +86,7 @@
 ### 修复
 - RxList `remove()` 现在返回 bool 表示成功
 - RxList `removeAt()` 现在返回被移除的元素
-- 添加 `Flow.reset()` 方法用于测试支持
+- 添加 `Flows.reset()` 方法用于测试支持
 - Snackbar 定位 - 现在正确显示在顶部/底部
 - Dialog 尺寸约束 - 自定义对话框现在有最大宽度 400px
 - 各种 lint 警告和信息消息
@@ -70,15 +100,15 @@
 
 ### 新增
 - 全面的测试套件，包含 **281 个测试**，覆盖所有核心模块：
-  - Flow 依赖注入测试（17 个测试）
+  - Flows 依赖注入测试（17 个测试）
   - FlowController 生命周期测试（5 个测试）
   - Rx 类型测试（27 个测试）
   - RxList 测试（14 个测试）
   - RxMap 测试（13 个测试）
   - FlowController/FlowState/FlowLogic 测试（14 个测试）
   - Flx 和 FlxValue 小组件测试（15 个测试）
-  - FlowPage 导航测试（13 个测试）
-- `Flow.reset()` 方法用于测试支持
+  - FlowsPage 导航测试（13 个测试）
+- `Flows.reset()` 方法用于测试支持
 - README.md 和 README_cn.md 中的测试文档
 
 ### 修复
@@ -96,15 +126,15 @@
 
 ### 新增
 - Fast Flows 框架首次发布
-- **依赖注入** 系统，支持 `Flow.put`、`Flow.find`、`Flow.isRegistered` 和 `Flow.delete`
+- **依赖注入** 系统，支持 `Flows.put`、`Flows.find`、`Flows.isRegistered` 和 `Flows.delete`
 - **响应式状态管理**，支持 Rx 类型：
   - `Rx<T>`、`Rxn<T>` 通用响应式包装器
   - `RxBool`、`RxInt`、`RxDouble`、`RxString` 原始类型
   - `RxList<T>`、`RxMap<K,V>` 集合类型
   - `.obs` 扩展用于轻松创建响应式类型
-- **路由管理**，支持 `Flow.to`、`Flow.toNamed`、`Flow.back`、`Flow.off`、`Flow.offAll`
-- **FlowMaterialApp** 小组件，支持应用配置和主题
-- **FlowPage** 用于命名路由定义，支持过渡动画
+- **路由管理**，支持 `Flows.to`、`Flows.toNamed`、`Flows.back`、`Flows.off`、`Flows.offAll`
+- **FlowsMaterialApp** 小组件，支持应用配置和主题
+- **FlowsPage** 用于命名路由定义，支持过渡动画
 - **FlowController** 基类，提供生命周期方法（`onInit`、`onClose`）
 - **Flx** 响应式小组件构建器
 - **FlxValue** 优化的单值响应式小组件
@@ -138,7 +168,7 @@
 - 基于 GetX 的灵感优化 API 设计，语法更简洁
 
 ### 修复
-- 使用 `FlowMaterialApp` 时路由参数无法正确传递的问题
+- 使用 `FlowsMaterialApp` 时路由参数无法正确传递的问题
 - 主题切换在 UI 中不生效的问题
 - 可空 UserData 参数的类型转换问题
 - 静态分析警告和信息消息

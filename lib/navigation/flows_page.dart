@@ -1,4 +1,4 @@
-/// FlowPage - Route page definition
+/// FlowsPage - Route page definition
 library;
 
 import 'package:flutter/material.dart';
@@ -14,8 +14,8 @@ enum TransitionType {
   none,
 }
 
-/// A page definition for Flow routing
-class FlowPage {
+/// A page definition for Flows routing
+class FlowsPage {
   /// The route name
   final String name;
 
@@ -28,7 +28,7 @@ class FlowPage {
   /// Optional title for the route
   final String? title;
 
-  FlowPage({
+  FlowsPage({
     required this.name,
     required this.page,
     this.transition = TransitionType.none,

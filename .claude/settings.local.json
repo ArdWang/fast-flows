@@ -5,7 +5,12 @@
       "Bash(flutter analyze *)",
       "Bash(flutter create *)",
       "Bash(dart run *)",
-      "Bash(grep -E \"\\\\.md$\")"
+      "Bash(grep -E \"\\\\.md$\")",
+      "Bash(xargs grep *)",
+      "Bash(git mv *)",
+      "Bash(xargs sed *)",
+      "Bash(fvm flutter *)",
+      "Bash(fvm dart *)"
     ]
   }
 }

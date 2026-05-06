@@ -3,7 +3,7 @@
 /// Tests for Flx and FlxValue reactive widgets
 library;
 
-import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fast_flows/flows.dart';
 

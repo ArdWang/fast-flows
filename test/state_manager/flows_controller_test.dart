@@ -34,9 +34,9 @@ void main() {
       expect(logic.state, isNotNull);
     });
 
-    test('FlowLogic dispose', () {
+    test('FlowLogic close', () {
       final logic = TestLogic();
-      expect(() => logic.dispose(), returnsNormally);
+      expect(() => logic.close(), returnsNormally);
     });
   });
 

@@ -3,7 +3,7 @@
 /// This demonstrates the Logic/State/View separation pattern
 library;
 
-import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/material.dart';
 import 'package:fast_flows/flows.dart';
 
 import '../state/home_state.dart';
@@ -83,14 +83,14 @@ class HomeLogic extends FlowController {
   // ==========================================
 
   void navigateToCounter() {
-    Flow.toNamed('/counter');
+    Flows.toNamed('/counter');
   }
 
   void navigateToDetail() {
-    Flow.toNamed('/detail', arguments: {'name': state.name.value});
+    Flows.toNamed('/detail', arguments: {'name': state.name.value});
   }
 
   void navigateToDetailWithUserData() {
-    Flow.toNamed('/detail', arguments: {'userData': state.userData.value});
+    Flows.toNamed('/detail', arguments: {'userData': state.userData.value});
   }
 }

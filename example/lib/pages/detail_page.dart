@@ -4,7 +4,7 @@
 /// This page demonstrates receiving parameters in View layer
 library;
 
-import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/material.dart';
 import 'package:fast_flows/flows.dart';
 
 import '../state/home_state.dart' show UserData;
@@ -59,10 +59,10 @@ class DetailPage extends StatelessWidget {
     PrettyLogger.data('userData', userDataParam?.toString() ?? 'null');
 
     // Register controller if not already registered
-    if (!Flow.isRegistered<DetailController>()) {
-      Flow.put(DetailController());
+    if (!Flows.isRegistered<DetailController>()) {
+      Flows.put(DetailController());
     }
-    final controller = Flow.find<DetailController>();
+    final controller = Flows.find<DetailController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -165,7 +165,7 @@ class DetailPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 PrettyLogger.info('Navigating back from Detail Page');
-                Flow.back();
+                Flows.back();
               },
               child: const Text('Go Back Home'),
             ),

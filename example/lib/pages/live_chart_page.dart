@@ -10,7 +10,7 @@ library;
 import 'dart:math';
 import 'dart:async';
 
-import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/material.dart';
 import 'package:fast_flows/flows.dart';
 import 'package:fl_chart/fl_chart.dart' as fl;
 
@@ -163,7 +163,7 @@ class _LiveChartPageState extends State<LiveChartPage> {
   @override
   void initState() {
     super.initState();
-    _logic = Flow.put(LiveChartLogic());
+    _logic = Flows.put(LiveChartLogic());
     _logic.startAutoUpdate();
   }
 

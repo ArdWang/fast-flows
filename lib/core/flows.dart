@@ -1,24 +1,24 @@
-/// Flow - Core dependency injection and navigation
+/// Flows - Core dependency injection and navigation
 library;
 
-import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/material.dart';
 import 'lifecycle.dart';
 import '../navigation/snackbar.dart';
 import '../navigation/dialog.dart';
 
-/// FlowBinding for route-specific dependency injection
-abstract class FlowBinding {
+/// FlowsBinding for route-specific dependency injection
+abstract class FlowsBinding {
   void dependencies();
 }
 
-/// Flow - Dependency Injection and Navigation
+/// Flows - Dependency Injection and Navigation
 ///
 /// Main features:
-/// - Dependency Injection with Flow.put/Flow.find
-/// - Route management with Flow.to/Flow.toNamed
+/// - Dependency Injection with Flows.put/Flows.find
+/// - Route management with Flows.to/Flows.toNamed
 /// - Snackbar and Dialog utilities
 /// - Context access
-class Flow {
+class Flows {
   static final Map<Type, Map<String?, _InstanceBuilder>> _dependencies = {};
   static final _navigatorKey = GlobalKey<NavigatorState>();
   static bool _isDialogOpen = false;
@@ -80,7 +80,7 @@ class Flow {
   static S find<S>({String? tag}) {
     final type = S;
     if (!_dependencies.containsKey(type)) {
-      throw 'Dependency of type $type not found. Did you forget to call Flow.put()?';
+      throw 'Dependency of type $type not found. Did you forget to call Flows.put()?';
     }
     final builder = _dependencies[type]![tag];
     if (builder == null) {
@@ -142,7 +142,7 @@ class Flow {
   }
 
   /// Navigate to a page
-  static Future<T?> to<T>(Widget page, {FlowBinding? binding}) async {
+  static Future<T?> to<T>(Widget page, {FlowsBinding? binding}) async {
     if (binding != null) {
       binding.dependencies();
     }
@@ -157,7 +157,7 @@ class Flow {
   }
 
   /// Replace current route
-  static Future<T?> off<T>(Widget page, {FlowBinding? binding}) async {
+  static Future<T?> off<T>(Widget page, {FlowsBinding? binding}) async {
     if (binding != null) {
       binding.dependencies();
     }
@@ -182,7 +182,7 @@ class Flow {
   }
 
   /// Remove all routes until the first one
-  static void offAll(Widget page, {FlowBinding? binding}) {
+  static void offAll(Widget page, {FlowsBinding? binding}) {
     if (binding != null) {
       binding.dependencies();
     }
@@ -237,7 +237,7 @@ class Flow {
     Color? overlayColor,
     Form? userInputForm,
   }) {
-    final flowSnackBar = FlowSnackBar(
+    final flowSnackBar = FlowsSnackBar(
       snackbarStatus: snackbarStatus,
       titleText: titleText ??
           Text(
@@ -336,7 +336,7 @@ class Flow {
     Color? overlayColor,
     Form? userInputForm,
   }) {
-    final flowSnackBar = FlowSnackBar(
+    final flowSnackBar = FlowsSnackBar(
       snackbarStatus: snackbarStatus,
       title: title,
       message: message,
@@ -396,7 +396,7 @@ class Flow {
 
     final theme = Theme.of(navigator!.context);
     return navigator?.push<T>(
-      FlowDialogRoute<T>(
+      FlowsDialogRoute<T>(
         pageBuilder: (buildContext, animation, secondaryAnimation) {
           final pageChild = widget;
           Widget dialog = Builder(builder: (context) {

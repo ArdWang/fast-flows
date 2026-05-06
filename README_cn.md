@@ -8,7 +8,7 @@
 
 一个轻量级、现代化、强大的 Flutter 框架，结合了**状态管理**、**依赖注入**和**路由管理**，提供简洁、高性能且易用的 API。灵感来源于 GetX，但设计更简洁，专注于性能和简单性。
 
-**0.0.3 新增：** Snackbar & Dialog 系统、增强的 RxList API、RxWorkers（ever、once、debounce）、Flow.context 访问。
+**0.0.4 新增：** 将 `Flow` 类重命名为 `Flows`，避免与 Flutter 内置的 `Flow` 小组件冲突。所有 `Flow*` 类重命名为 `Flows*`，所有 `flow*.dart` 文件重命名为 `flows*.dart`。
 
 ## 目录
 
@@ -29,15 +29,15 @@
 
 ## 特性
 
-- **依赖注入**：简单而强大的 DI，支持 `Flow.put`、`Flow.find` 和 `Flow.isRegistered`
+- **依赖注入**：简单而强大的 DI，支持 `Flows.put`、`Flows.find` 和 `Flows.isRegistered`
 - **响应式状态管理**：超快的响应式编程，支持 `Rx` 类型和 `Flx` 小组件
-- **路由管理**：简洁的导航 API，支持 `Flow.to`、`Flow.toNamed` 和 `Flow.back`
+- **路由管理**：简洁的导航 API，支持 `Flows.to`、`Flows.toNamed` 和 `Flows.back`
 - **Logic/State/View 模式**：清晰关注点分离，代码更易维护
 - **零模板代码**：不需要 StreamControllers、ChangeNotifiers 或 InheritedWidgets
 - **性能优化**：单层观察设计，最大化性能
 - **类型安全**：完整的 Dart 类型系统支持
 - **多平台**：支持 Android、iOS、Web、Windows、macOS 和 Linux
-- **Snackbar & Dialog**：内置通知和对话框系统，支持 `Flow.snackbar()` 和 `Flow.dialog()`
+- **Snackbar & Dialog**：内置通知和对话框系统，支持 `Flows.snackbar()` 和 `Flows.dialog()`
 - **RxWorkers**：响应式 worker，支持 `ever()`、`once()`、`debounce()` 和 `interval()`
 
 ## 安装
@@ -48,7 +48,7 @@
 dependencies:
   flutter:
     sdk: flutter
-  fast_flows: ^0.0.3
+  fast_flows: ^0.0.4
 ```
 
 然后运行：
@@ -94,10 +94,10 @@ class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 注册逻辑（如果尚未注册）
-    if (!Flow.isRegistered<CounterLogic>()) {
-      Flow.put(CounterLogic());
+    if (!Flows.isRegistered<CounterLogic>()) {
+      Flows.put(CounterLogic());
     }
-    final logic = Flow.find<CounterLogic>();
+    final logic = Flows.find<CounterLogic>();
 
     return Scaffold(
       appBar: AppBar(title: const Text('计数器')),
@@ -142,11 +142,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlowMaterialApp(
+    return FlowsMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Fast Flows 演示',
       pages: [
-        FlowPage(name: '/counter', page: () => const CounterPage()),
+        FlowsPage(name: '/counter', page: () => const CounterPage()),
       ],
       initialRoute: '/counter',
     );
@@ -187,30 +187,30 @@ Fast Flows 提供简单而强大的依赖注入系统：
 
 ```dart
 // 注册依赖
-Flow.put(MyService());
+Flows.put(MyService());
 
 // 使用名称注册
-Flow.put(MyService(), name: 'myService');
+Flows.put(MyService(), name: 'myService');
 
 // 注册为懒加载（首次访问时创建）
-Flow.putLazy(() => MyService());
+Flows.putLazy(() => MyService());
 
 // 查找依赖
-final service = Flow.find<MyService>();
+final service = Flows.find<MyService>();
 
 // 按名称查找
-final service = Flow.find<MyService>(name: 'myService');
+final service = Flows.find<MyService>(name: 'myService');
 
 // 检查是否已注册
-if (Flow.isRegistered<MyService>()) {
+if (Flows.isRegistered<MyService>()) {
   // 执行操作
 }
 
 // 移除依赖
-Flow.remove<MyService>();
+Flows.remove<MyService>();
 
 // 移除所有依赖
-Flow.disposeAll();
+Flows.disposeAll();
 ```
 
 #### FlowController 生命周期
@@ -284,34 +284,34 @@ Fast Flows 提供简洁的导航 API：
 
 ```dart
 // 导航到命名路由
-Flow.toNamed('/detail');
+Flows.toNamed('/detail');
 
 // 带参数导航
-Flow.toNamed('/detail', arguments: {'id': 123});
+Flows.toNamed('/detail', arguments: {'id': 123});
 
 // 导航到自定义页面
-Flow.to(NextPage());
+Flows.to(NextPage());
 
 // 带参数导航到自定义页面
-Flow.to(NextPage(), arguments: {'data': myData});
+Flows.to(NextPage(), arguments: {'data': myData});
 
 // 返回
-Flow.back();
+Flows.back();
 
 // 带结果返回
-Flow.back({'result': 'success'});
+Flows.back({'result': 'success'});
 
 // 替换当前路由
-Flow.off(NextPage());
+Flows.off(NextPage());
 
 // 替换所有路由
-Flow.offAll(NextPage());
+Flows.offAll(NextPage());
 ```
 
-#### FlowMaterialApp
+#### FlowsMaterialApp
 
 ```dart
-FlowMaterialApp(
+FlowsMaterialApp(
   debugShowCheckedModeBanner: false,
   title: '我的应用',
   // 浅色主题
@@ -328,8 +328,8 @@ FlowMaterialApp(
   themeMode: ThemeMode.system,
   // 定义路由
   pages: [
-    FlowPage(name: '/home', page: () => HomePage()),
-    FlowPage(name: '/detail', page: () => DetailPage()),
+    FlowsPage(name: '/home', page: () => HomePage()),
+    FlowsPage(name: '/detail', page: () => DetailPage()),
   ],
   initialRoute: '/home',
 )
@@ -359,10 +359,10 @@ class DetailPage extends StatelessWidget {
 
 ```dart
 // 简单 snackbar（默认顶部显示）
-Flow.snackbar('标题', '消息内容');
+Flows.snackbar('标题', '消息内容');
 
 // 底部显示
-Flow.snackbar(
+Flows.snackbar(
   '提示',
   '这是一条消息',
   snackPosition: SnackPosition.bottom,
@@ -370,7 +370,7 @@ Flow.snackbar(
 );
 
 // 自定义 snackbar，带图标和颜色
-Flow.snackbar(
+Flows.snackbar(
   '成功！',
   '操作已完成',
   snackPosition: SnackPosition.top,
@@ -379,26 +379,26 @@ Flow.snackbar(
 );
 
 // 完全自定义的 snackbar
-Flow.rawSnackbar(
+Flows.rawSnackbar(
   title: '自定义',
   message: '完全自定义的 snackbar',
   backgroundColor: Colors.blue,
   duration: const Duration(seconds: 5),
   mainButton: TextButton(
-    onPressed: () => Flow.back(),
+    onPressed: () => Flows.back(),
     child: const Text('操作'),
   ),
 );
 
 // 关闭所有 snackbar
-Flow.closeAllSnackbars();
+Flows.closeAllSnackbars();
 ```
 
 **显示 Dialog：**
 
 ```dart
 // 自定义对话框
-await Flow.dialog(
+await Flows.dialog(
   Container(
     padding: const EdgeInsets.all(24),
     decoration: BoxDecoration(
@@ -413,7 +413,7 @@ await Flow.dialog(
         const Text('自定义对话框', style: TextStyle(fontSize: 24)),
         const SizedBox(height: 16),
         ElevatedButton(
-          onPressed: () => Flow.back(),
+          onPressed: () => Flows.back(),
           child: const Text('关闭'),
         ),
       ],
@@ -422,26 +422,26 @@ await Flow.dialog(
 );
 
 // 默认警报对话框
-await Flow.defaultDialog(
+await Flows.defaultDialog(
   title: '提示',
   middleText: '这是一个警报对话框',
   textConfirm: '确定',
   textCancel: '取消',
   onConfirm: () {
     // 处理确认
-    Flow.back();
+    Flows.back();
   },
   onCancel: () {
     // 处理取消
-    Flow.back();
+    Flows.back();
   },
 );
 
 // 关闭所有对话框
-Flow.closeAllDialogs();
+Flows.closeAllDialogs();
 
 // 检查对话框是否打开
-if (Flow.isDialogOpen) {
+if (Flows.isDialogOpen) {
   // 对话框当前已打开
 }
 ```
@@ -530,18 +530,18 @@ ever(count, (value) {
 
 ## API 参考
 
-### Flow（依赖注入）
+### Flows（依赖注入）
 
 | 方法 | 描述 |
 |------|------|
-| `Flow.put<T>(instance)` | 注册依赖 |
-| `Flow.putLazy<T>(factory)` | 注册懒加载依赖 |
-| `Flow.find<T>(name)` | 查找依赖 |
-| `Flow.isRegistered<T>(name)` | 检查是否已注册 |
-| `Flow.remove<T>(name)` | 移除依赖 |
-| `Flow.disposeAll()` | 移除所有依赖 |
-| `Flow.context` | 获取当前 BuildContext |
-| `Flow.isDialogOpen` | 检查对话框是否打开 |
+| `Flows.put<T>(instance)` | 注册依赖 |
+| `Flows.putLazy<T>(factory)` | 注册懒加载依赖 |
+| `Flows.find<T>(name)` | 查找依赖 |
+| `Flows.isRegistered<T>(name)` | 检查是否已注册 |
+| `Flows.remove<T>(name)` | 移除依赖 |
+| `Flows.disposeAll()` | 移除所有依赖 |
+| `Flows.context` | 获取当前 BuildContext |
+| `Flows.isDialogOpen` | 检查对话框是否打开 |
 
 ### FlowController
 
@@ -590,27 +590,27 @@ ever(count, (value) {
 
 | 方法 | 描述 |
 |------|------|
-| `Flow.to(page)` | 导航到页面 |
-| `Flow.toNamed(name)` | 导航到命名路由 |
-| `Flow.back()` | 返回 |
-| `Flow.off(page)` | 替换当前路由 |
-| `Flow.offAll(page)` | 替换所有路由 |
+| `Flows.to(page)` | 导航到页面 |
+| `Flows.toNamed(name)` | 导航到命名路由 |
+| `Flows.back()` | 返回 |
+| `Flows.off(page)` | 替换当前路由 |
+| `Flows.offAll(page)` | 替换所有路由 |
 
 ### Snackbar
 
 | 方法 | 描述 |
 |------|------|
-| `Flow.snackbar(title, message)` | 显示自定义位置的 snackbar |
-| `Flow.rawSnackbar(...)` | 显示完全自定义的 snackbar |
-| `Flow.closeAllSnackbars()` | 关闭所有 snackbar |
+| `Flows.snackbar(title, message)` | 显示自定义位置的 snackbar |
+| `Flows.rawSnackbar(...)` | 显示完全自定义的 snackbar |
+| `Flows.closeAllSnackbars()` | 关闭所有 snackbar |
 
 ### Dialog
 
 | 方法 | 描述 |
 |------|------|
-| `Flow.dialog(widget)` | 显示自定义对话框 |
-| `Flow.defaultDialog(...)` | 显示默认警报对话框 |
-| `Flow.closeAllDialogs()` | 关闭所有对话框 |
+| `Flows.dialog(widget)` | 显示自定义对话框 |
+| `Flows.defaultDialog(...)` | 显示默认警报对话框 |
+| `Flows.closeAllDialogs()` | 关闭所有对话框 |
 
 ### RxWorkers
 
@@ -631,20 +631,20 @@ Fast Flows 灵感来源于 GetX，但 API 更简洁。以下是迁移方法：
 
 | GetX | Fast Flows |
 |------|------------|
-| `Get.put()` | `Flow.put()` |
-| `Get.find()` | `Flow.find()` |
-| `Get.isRegistered()` | `Flow.isRegistered()` |
-| `Get.delete()` | `Flow.remove()` |
-| `Get.to()` | `Flow.to()` |
-| `Get.toNamed()` | `Flow.toNamed()` |
-| `Get.back()` | `Flow.back()` |
-| `Get.off()` | `Flow.off()` |
-| `Get.offAll()` | `Flow.offAll()` |
+| `Get.put()` | `Flows.put()` |
+| `Get.find()` | `Flows.find()` |
+| `Get.isRegistered()` | `Flows.isRegistered()` |
+| `Get.delete()` | `Flows.remove()` |
+| `Get.to()` | `Flows.to()` |
+| `Get.toNamed()` | `Flows.toNamed()` |
+| `Get.back()` | `Flows.back()` |
+| `Get.off()` | `Flows.off()` |
+| `Get.offAll()` | `Flows.offAll()` |
 | `GetX<Controller>` | `Flx(() => ...)` |
 | `Obx(() => ...)` | `Flx(() => ...)` |
 | `RxInt`, `RxString` 等 | 相同，使用 `.obs` 扩展 |
-| `GetMaterialApp` | `FlowMaterialApp` |
-| `GetPage` | `FlowPage` |
+| `GetMaterialApp` | `FlowsMaterialApp` |
+| `GetPage` | `FlowsPage` |
 
 ### 迁移示例
 
@@ -668,7 +668,7 @@ class Controller extends FlowController {
   void increment() => count.value++;
 }
 
-Flow.put(Controller());
+Flows.put(Controller());
 Flx(() => Text('Count: ${logic.state.count.value}'));
 ```
 
@@ -708,19 +708,19 @@ void onClose() {
 
 ```dart
 // 更快
-Flow.toNamed('/detail', arguments: {'id': 123});
+Flows.toNamed('/detail', arguments: {'id': 123});
 
 // 较慢
-Flow.to(DetailPage(id: 123));
+Flows.to(DetailPage(id: 123));
 ```
 
 ## 示例应用
 
 `example/` 目录包含一个完整示例应用，展示所有功能：
 
-- 使用 `Flow.put`/`Flow.find` 的依赖注入
+- 使用 `Flows.put`/`Flows.find` 的依赖注入
 - 使用 `Rx` 类型和 `Flx` 小组件的响应式状态管理
-- 使用 `Flow.to`/`Flow.toNamed` 的路由管理
+- 使用 `Flows.to`/`Flows.toNamed` 的路由管理
 - Logic/State/View 分离模式
 - 浅色/深色主题切换
 - 路由间对象传递和编辑功能
@@ -742,7 +742,7 @@ Fast Flows 包含全面的测试套件，涵盖所有核心功能模块：
 flutter test
 
 # 运行特定测试文件
-flutter test test/core/flow_test.dart
+flutter test test/core/flows_test.dart
 flutter test test/rx/rx_types_test.dart
 flutter test test/state_manager/flx_test.dart
 
@@ -754,14 +754,14 @@ flutter test --coverage
 
 | 模块 | 测试文件 | 测试数量 |
 |------|----------|----------|
-| 核心 - Flow | `test/core/flow_test.dart` | 17 |
+| 核心 - Flows | `test/core/flows_test.dart` | 17 |
 | 核心 - 生命周期 | `test/core/lifecycle_test.dart` | 5 |
 | RX 类型 | `test/rx/rx_types_test.dart` | 27 |
 | RX List | `test/rx/rx_list_test.dart` | 14 |
 | RX Map | `test/rx/rx_map_test.dart` | 13 |
-| 状态管理 | `test/state_manager/flow_controller_test.dart` | 14 |
+| 状态管理 | `test/state_manager/flows_controller_test.dart` | 14 |
 | Flx 小组件 | `test/state_manager/flx_test.dart` | 15 |
-| 导航 | `test/navigation/flow_page_test.dart` | 13 |
+| 导航 | `test/navigation/flows_page_test.dart` | 13 |
 | **总计** | | **281** |
 
 所有测试均通过，确保库的稳定性和可靠性。

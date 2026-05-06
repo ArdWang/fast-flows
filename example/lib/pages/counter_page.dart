@@ -1,7 +1,7 @@
 /// Counter Page - Demonstrates standalone counter with FlowController
 library;
 
-import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/material.dart';
 import 'package:fast_flows/flows.dart';
 
 import '../utils/pretty_print.dart';
@@ -27,10 +27,10 @@ class CounterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     PrettyLogger.debug('CounterPage loaded');
 
-    if (!Flow.isRegistered<CounterController>()) {
-      Flow.put(CounterController());
+    if (!Flows.isRegistered<CounterController>()) {
+      Flows.put(CounterController());
     }
-    final controller = Flow.find<CounterController>();
+    final controller = Flows.find<CounterController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -100,7 +100,7 @@ class CounterPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 PrettyLogger.info('Navigating back from Counter Page');
-                Flow.back();
+                Flows.back();
               },
               child: const Text('Go Back'),
             ),

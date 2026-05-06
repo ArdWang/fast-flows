@@ -3,7 +3,7 @@
 /// This page shows the performance of Flx reactive system
 library;
 
-import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/material.dart';
 import 'package:fast_flows/flows.dart';
 
 import '../utils/pretty_print.dart';
@@ -52,10 +52,10 @@ class PerfTestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!Flow.isRegistered<PerfTestController>()) {
-      Flow.put(PerfTestController());
+    if (!Flows.isRegistered<PerfTestController>()) {
+      Flows.put(PerfTestController());
     }
-    final controller = Flow.find<PerfTestController>();
+    final controller = Flows.find<PerfTestController>();
 
     PrettyLogger.debug('PerfTestPage loaded');
 

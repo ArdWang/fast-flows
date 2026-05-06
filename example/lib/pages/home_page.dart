@@ -5,7 +5,7 @@
 /// 2. Complex Object parameter (UserData) - Editable!
 library;
 
-import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/material.dart';
 import 'package:fast_flows/flows.dart';
 
 import '../logic/home_logic.dart';
@@ -19,10 +19,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Register logic if not already registered
-    if (!Flow.isRegistered<HomeLogic>()) {
-      Flow.put(HomeLogic());
+    if (!Flows.isRegistered<HomeLogic>()) {
+      Flows.put(HomeLogic());
     }
-    final logic = Flow.find<HomeLogic>();
+    final logic = Flows.find<HomeLogic>();
 
     // Print current theme state
     PrettyLogger.divider('Home Page Loaded');
@@ -141,7 +141,7 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 final currentName = logic.state.name.value;
                 PrettyLogger.info('Navigate to Detail with name: $currentName');
-                Flow.toNamed(
+                Flows.toNamed(
                   '/detail',
                   arguments: {'name': currentName},
                 );
@@ -156,7 +156,7 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 final userData = logic.state.userData.value;
                 PrettyLogger.info('Navigate to Detail with UserData: $userData');
-                Flow.toNamed(
+                Flows.toNamed(
                   '/detail',
                   arguments: {'userData': userData},
                 );
@@ -166,22 +166,22 @@ class HomePage extends StatelessWidget {
 
             const SizedBox(height: 8),
             ElevatedButton(
-              onPressed: () => Flow.toNamed('/counter'),
+              onPressed: () => Flows.toNamed('/counter'),
               child: const Text('Go to Counter Page'),
             ),
             const SizedBox(height: 8),
             ElevatedButton(
-              onPressed: () => Flow.toNamed('/perf-test'),
+              onPressed: () => Flows.toNamed('/perf-test'),
               child: const Text('Performance Test'),
             ),
             const SizedBox(height: 8),
             ElevatedButton(
-              onPressed: () => Flow.toNamed('/live-chart'),
+              onPressed: () => Flows.toNamed('/live-chart'),
               child: const Text('Live Temperature Chart'),
             ),
             const SizedBox(height: 8),
             ElevatedButton(
-              onPressed: () => Flow.to(const NewFeaturesPage()),
+              onPressed: () => Flows.to(const NewFeaturesPage()),
               child: const Text('New Features Test'),
             ),
           ],

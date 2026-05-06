@@ -1,13 +1,13 @@
 /// FlowApp - Material and Cupertino app widgets with routing
 library;
 
-import 'package:flutter/cupertino.dart' hide Flow;
-import 'package:flutter/material.dart' hide Flow;
-import '../core/flow.dart';
-import 'flow_page.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import '../core/flows.dart';
+import 'flows_page.dart';
 
-/// FlowMaterialApp - Material app with Flow routing support
-class FlowMaterialApp extends StatefulWidget {
+/// FlowsMaterialApp - Material app with Flows routing support
+class FlowsMaterialApp extends StatefulWidget {
   /// The home widget
   final Widget? home;
 
@@ -15,7 +15,7 @@ class FlowMaterialApp extends StatefulWidget {
   final String? initialRoute;
 
   /// All pages for the app
-  final List<FlowPage>? pages;
+  final List<FlowsPage>? pages;
 
   /// Theme data
   final ThemeData? theme;
@@ -44,7 +44,7 @@ class FlowMaterialApp extends StatefulWidget {
   /// App title for accessibility
   final String? title;
 
-  const FlowMaterialApp({
+  const FlowsMaterialApp({
     super.key,
     this.home,
     this.initialRoute,
@@ -61,10 +61,10 @@ class FlowMaterialApp extends StatefulWidget {
   });
 
   @override
-  State<FlowMaterialApp> createState() => _FlowMaterialAppState();
+  State<FlowsMaterialApp> createState() => _FlowsMaterialAppState();
 }
 
-class _FlowMaterialAppState extends State<FlowMaterialApp> {
+class _FlowsMaterialAppState extends State<FlowsMaterialApp> {
   ThemeMode _currentThemeMode = ThemeMode.system;
 
   @override
@@ -74,7 +74,7 @@ class _FlowMaterialAppState extends State<FlowMaterialApp> {
   }
 
   @override
-  void didUpdateWidget(FlowMaterialApp oldWidget) {
+  void didUpdateWidget(FlowsMaterialApp oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.themeMode != oldWidget.themeMode) {
       setState(() {
@@ -107,7 +107,7 @@ class _FlowMaterialAppState extends State<FlowMaterialApp> {
       darkTheme: widget.darkTheme,
       themeMode: _currentThemeMode,
       debugShowCheckedModeBanner: widget.debugShowCheckedModeBanner,
-      navigatorKey: Flow.navigatorKey,
+      navigatorKey: Flows.navigatorKey,
       navigatorObservers: widget.navigatorObservers ?? [],
       builder: widget.builder,
       onGenerateRoute: (settings) {
@@ -120,7 +120,7 @@ class _FlowMaterialAppState extends State<FlowMaterialApp> {
         }
         if (widget.unknownRoute != null) {
           return MaterialPageRoute(
-            builder: (_) => widget.unknownRoute!(Flow.navigator!.context),
+            builder: (_) => widget.unknownRoute!(Flows.navigator!.context),
             settings: settings,
           );
         }
@@ -130,15 +130,15 @@ class _FlowMaterialAppState extends State<FlowMaterialApp> {
   }
 }
 
-/// FlowCupertinoApp - Cupertino app with Flow routing support
-class FlowCupertinoApp extends StatelessWidget {
+/// FlowsCupertinoApp - Cupertino app with Flows routing support
+class FlowsCupertinoApp extends StatelessWidget {
   final Widget? home;
   final String? initialRoute;
-  final List<FlowPage>? pages;
+  final List<FlowsPage>? pages;
   final bool debugShowCheckedModeBanner;
   final Map<String, Widget Function(BuildContext)>? routes;
 
-  const FlowCupertinoApp({
+  const FlowsCupertinoApp({
     super.key,
     this.home,
     this.initialRoute,
@@ -165,7 +165,7 @@ class FlowCupertinoApp extends StatelessWidget {
       initialRoute: initialRoute,
       routes: builtRoutes,
       debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-      navigatorKey: Flow.navigatorKey,
+      navigatorKey: Flows.navigatorKey,
     );
   }
 }

@@ -1,9 +1,9 @@
 /// Fast Flows Framework Example App
 ///
 /// This example demonstrates all the features of the Fast Flows framework:
-/// - Dependency Injection with Flow.put/Flow.find
+/// - Dependency Injection with Flows.put/Flows.find
 /// - Reactive state management with Rx types and Flx widget
-/// - Route management with Flow.to/Flow.toNamed
+/// - Route management with Flows.to/Flows.toNamed
 /// - Logic/State/View separation pattern
 /// - Light/Dark theme switching
 /// - Custom app icon (flows.png)
@@ -44,9 +44,9 @@ void main() {
   PrettyLogger.info('Initializing application...');
   PrettyLogger.divider('Features');
   PrettyLogger.list([
-    'Dependency Injection with Flow.put/Flow.find',
+    'Dependency Injection with Flows.put/Flows.find',
     'Reactive state management with Rx types and Flx widget',
-    'Route management with Flow.to/Flow.toNamed',
+    'Route management with Flows.to/Flows.toNamed',
     'Logic/State/View separation pattern',
     'Light/Dark theme switching',
     'Custom app icon (flows.png)',
@@ -124,7 +124,7 @@ class _FlowsExampleAppState extends State<FlowsExampleApp> {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: _themeController.themeMode,
       builder: (context, themeMode, child) {
-        return FlowMaterialApp(
+        return FlowsMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Fast Flows Example',
           // Light theme - matches flows.png icon colors
@@ -181,11 +181,11 @@ class _FlowsExampleAppState extends State<FlowsExampleApp> {
           ),
           themeMode: themeMode,
           pages: [
-            FlowPage(name: '/home', page: () => const HomePage()),
-            FlowPage(name: '/counter', page: () => const CounterPage()),
-            FlowPage(name: '/detail', page: () => const DetailPage()),
-            FlowPage(name: '/perf-test', page: () => const PerfTestPage()),
-            FlowPage(name: '/live-chart', page: () => const LiveChartPage()),
+            FlowsPage(name: '/home', page: () => const HomePage()),
+            FlowsPage(name: '/counter', page: () => const CounterPage()),
+            FlowsPage(name: '/detail', page: () => const DetailPage()),
+            FlowsPage(name: '/perf-test', page: () => const PerfTestPage()),
+            FlowsPage(name: '/live-chart', page: () => const LiveChartPage()),
           ],
           initialRoute: '/home',
         );

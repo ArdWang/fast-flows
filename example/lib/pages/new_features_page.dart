@@ -1,15 +1,15 @@
 /// New Features Test Page
 ///
 /// This page demonstrates all the new GetX-like features added to Flows:
-/// - Flow.snackbar() / Flow.dialog()
-/// - Flow.context / Flow.isDialogOpen
+/// - Flows.snackbar() / Flows.dialog()
+/// - Flows.context / Flows.isDialogOpen
 /// - SnackPosition
 /// - RxList API (isEmpty, isNotEmpty, firstWhereOrNull, etc.)
 /// - ever() workers
 /// - refresh() method
 library;
 
-import 'package:flutter/material.dart' hide Flow;
+import 'package:flutter/material.dart';
 import 'package:fast_flows/flows.dart';
 import '../main.dart' show AppColors;
 import '../utils/pretty_print.dart';
@@ -65,12 +65,12 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Section 1: Snackbar
-            _buildSectionTitle('1. Snackbar (Flow.snackbar)'),
+            _buildSectionTitle('1. Snackbar (Flows.snackbar)'),
             _buildCard(
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
-                    Flow.snackbar(
+                    Flows.snackbar(
                       'Success!',
                       'This is a success message',
                       snackPosition: SnackPosition.top,
@@ -85,7 +85,7 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
                 const SizedBox(height: 8),
                 ElevatedButton.icon(
                   onPressed: () {
-                    Flow.snackbar(
+                    Flows.snackbar(
                       'Info',
                       'This is an info message at bottom',
                       snackPosition: SnackPosition.bottom,
@@ -101,7 +101,7 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
                 const SizedBox(height: 8),
                 ElevatedButton.icon(
                   onPressed: () {
-                    Flow.rawSnackbar(
+                    Flows.rawSnackbar(
                       title: 'Custom Snackbar',
                       message: 'This is a fully customized snackbar with longer duration',
                       backgroundColor: AppColors.warning,
@@ -121,7 +121,7 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
                 const SizedBox(height: 8),
                 ElevatedButton.icon(
                   onPressed: () {
-                    Flow.closeAllSnackbars();
+                    Flows.closeAllSnackbars();
                     PrettyLogger.info('All snackbars closed');
                   },
                   icon: const Icon(Icons.close),
@@ -133,13 +133,13 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
             const SizedBox(height: 24),
 
             // Section 2: Dialog
-            _buildSectionTitle('2. Dialog (Flow.dialog)'),
+            _buildSectionTitle('2. Dialog (Flows.dialog)'),
             _buildCard(
               children: [
                 ElevatedButton.icon(
                   onPressed: () async {
                     PrettyLogger.info('Showing custom dialog...');
-                    await Flow.dialog(
+                    await Flows.dialog(
                       Container(
                         constraints: const BoxConstraints(maxWidth: 320),
                         padding: const EdgeInsets.all(24),
@@ -157,10 +157,10 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
                               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 8),
-                            const Text('This is a custom dialog using Flow.dialog()', textAlign: TextAlign.center),
+                            const Text('This is a custom dialog using Flows.dialog()', textAlign: TextAlign.center),
                             const SizedBox(height: 16),
                             ElevatedButton(
-                              onPressed: () => Flow.back(),
+                              onPressed: () => Flows.back(),
                               child: const Text('Close'),
                             ),
                           ],
@@ -176,7 +176,7 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
                 ElevatedButton.icon(
                   onPressed: () async {
                     PrettyLogger.info('Showing default dialog...');
-                    await Flow.defaultDialog(
+                    await Flows.defaultDialog(
                       title: 'Alert!',
                       middleText: 'This is a default dialog with configurable buttons.\n\nYou can customize colors, text, and actions.',
                       textConfirm: 'Got it!',
@@ -184,11 +184,11 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
                       confirmTextColor: Colors.white,
                       onConfirm: () {
                         PrettyLogger.success('Confirm button tapped');
-                        Flow.back();
+                        Flows.back();
                       },
                       onCancel: () {
                         PrettyLogger.info('Cancel button tapped');
-                        Flow.back();
+                        Flows.back();
                       },
                     );
                   },
@@ -198,10 +198,10 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
                 const SizedBox(height: 8),
                 ElevatedButton.icon(
                   onPressed: () {
-                    PrettyLogger.info('Dialog open status: ${Flow.isDialogOpen}');
-                    Flow.snackbar(
+                    PrettyLogger.info('Dialog open status: ${Flows.isDialogOpen}');
+                    Flows.snackbar(
                       'Dialog Status',
-                      'Is dialog open? ${Flow.isDialogOpen ? "Yes" : "No"}',
+                      'Is dialog open? ${Flows.isDialogOpen ? "Yes" : "No"}',
                       snackPosition: SnackPosition.bottom,
                     );
                   },
@@ -211,7 +211,7 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
                 const SizedBox(height: 8),
                 ElevatedButton.icon(
                   onPressed: () {
-                    Flow.closeAllDialogs();
+                    Flows.closeAllDialogs();
                     PrettyLogger.info('All dialogs closed');
                   },
                   icon: const Icon(Icons.close_fullscreen),
@@ -222,24 +222,24 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
 
             const SizedBox(height: 24),
 
-            // Section 3: Flow.context
-            _buildSectionTitle('3. Flow.context'),
+            // Section 3: Flows.context
+            _buildSectionTitle('3. Flows.context'),
             _buildCard(
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
-                    final ctx = Flow.context;
+                    final ctx = Flows.context;
                     if (ctx != null) {
-                      PrettyLogger.success('Flow.context available: ${ctx.widget.runtimeType}');
+                      PrettyLogger.success('Flows.context available: ${ctx.widget.runtimeType}');
                       ScaffoldMessenger.of(ctx).showSnackBar(
-                        const SnackBar(content: Text('Got context from Flow.context!')),
+                        const SnackBar(content: Text('Got context from Flows.context!')),
                       );
                     } else {
-                      PrettyLogger.warning('Flow.context is null');
+                      PrettyLogger.warning('Flows.context is null');
                     }
                   },
                   icon: const Icon(Icons.info),
-                  label: const Text('Get Flow.context'),
+                  label: const Text('Get Flows.context'),
                 ),
               ],
             ),
@@ -298,7 +298,7 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
                       onPressed: () {
                         final result = items.firstWhereOrNull((item) => item.startsWith('C'));
                         PrettyLogger.data('firstWhereOrNull (starts with C)', result ?? 'null');
-                        Flow.snackbar(
+                        Flows.snackbar(
                           'firstWhereOrNull',
                           result ?? 'No item found',
                           snackPosition: SnackPosition.bottom,
@@ -427,7 +427,7 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
 
                     once(rxOnce, (value) {
                       PrettyLogger.success('once() triggered! Value: $value');
-                      Flow.snackbar(
+                      Flows.snackbar(
                         'once() triggered!',
                         'This only shows once',
                         snackPosition: SnackPosition.bottom,
@@ -473,7 +473,7 @@ class _NewFeaturesPageState extends State<NewFeaturesPage> {
                     myWorkers.dispose();
                     PrettyLogger.info('Disposed all workers');
 
-                    Flow.snackbar(
+                    Flows.snackbar(
                       'Workers Demo',
                       'Created and disposed workers',
                       snackPosition: SnackPosition.bottom,

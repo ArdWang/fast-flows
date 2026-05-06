@@ -8,7 +8,7 @@
 
 A lightweight, modern, and powerful Flutter framework combining **state management**, **dependency injection**, and **route management** with a clean, high-performance, and easy-to-use API. Inspired by GetX, but with a cleaner design focused on performance and simplicity.
 
-**New in 0.0.3:** Snackbar & Dialog system, enhanced RxList API, RxWorkers (ever, once, debounce), and Flow.context access.
+**New in 0.0.4:** Renamed `Flow` class to `Flows` to avoid conflict with Flutter's built-in `Flow` widget. All `Flow*` classes renamed to `Flows*`, all `flow*.dart` files renamed to `flows*.dart`.
 
 ## Table of Contents
 
@@ -31,15 +31,15 @@ A lightweight, modern, and powerful Flutter framework combining **state manageme
 
 ## Features
 
-- **Dependency Injection**: Simple yet powerful DI with `Flow.put`, `Flow.find`, and `Flow.isRegistered`
+- **Dependency Injection**: Simple yet powerful DI with `Flows.put`, `Flows.find`, and `Flows.isRegistered`
 - **Reactive State Management**: Ultra-fast reactive programming with `Rx` types and `Flx` widgets
-- **Route Management**: Clean navigation API with `Flow.to`, `Flow.toNamed`, and `Flow.back`
+- **Route Management**: Clean navigation API with `Flows.to`, `Flows.toNamed`, and `Flows.back`
 - **Logic/State/View Pattern**: Clear separation of concerns for maintainable code
 - **Zero Boilerplate**: No StreamControllers, ChangeNotifiers, or InheritedWidgets needed
 - **Performance Optimized**: Single-level observation design for maximum performance
 - **Type Safe**: Full Dart type system support
 - **Multi-platform**: Supports Android, iOS, Web, Windows, macOS, and Linux
-- **Snackbar & Dialog**: Built-in notification and dialog system with `Flow.snackbar()` and `Flow.dialog()`
+- **Snackbar & Dialog**: Built-in notification and dialog system with `Flows.snackbar()` and `Flows.dialog()`
 - **RxWorkers**: Reactive workers with `ever()`, `once()`, `debounce()`, and `interval()`
 
 ## Installation
@@ -50,7 +50,7 @@ Add this to your `pubspec.yaml`:
 dependencies:
   flutter:
     sdk: flutter
-  fast_flows: ^0.0.3
+  fast_flows: ^0.0.4
 ```
 
 Then run:
@@ -96,10 +96,10 @@ class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Register logic (if not already registered)
-    if (!Flow.isRegistered<CounterLogic>()) {
-      Flow.put(CounterLogic());
+    if (!Flows.isRegistered<CounterLogic>()) {
+      Flows.put(CounterLogic());
     }
-    final logic = Flow.find<CounterLogic>();
+    final logic = Flows.find<CounterLogic>();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Counter')),
@@ -144,11 +144,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlowMaterialApp(
+    return FlowsMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Fast Flows Demo',
       pages: [
-        FlowPage(name: '/counter', page: () => const CounterPage()),
+        FlowsPage(name: '/counter', page: () => const CounterPage()),
       ],
       initialRoute: '/counter',
     );
@@ -189,30 +189,30 @@ Fast Flows provides a simple yet powerful dependency injection system:
 
 ```dart
 // Register a dependency
-Flow.put(MyService());
+Flows.put(MyService());
 
 // Register with a name
-Flow.put(MyService(), name: 'myService');
+Flows.put(MyService(), name: 'myService');
 
 // Register as lazy (created on first access)
-Flow.putLazy(() => MyService());
+Flows.putLazy(() => MyService());
 
 // Find a dependency
-final service = Flow.find<MyService>();
+final service = Flows.find<MyService>();
 
 // Find by name
-final service = Flow.find<MyService>(name: 'myService');
+final service = Flows.find<MyService>(name: 'myService');
 
 // Check if registered
-if (Flow.isRegistered<MyService>()) {
+if (Flows.isRegistered<MyService>()) {
   // Do something
 }
 
 // Remove a dependency
-Flow.remove<MyService>();
+Flows.remove<MyService>();
 
 // Remove all dependencies
-Flow.disposeAll();
+Flows.disposeAll();
 ```
 
 #### FlowController Lifecycle
@@ -286,34 +286,34 @@ Fast Flows provides a clean navigation API:
 
 ```dart
 // Navigate to named route
-Flow.toNamed('/detail');
+Flows.toNamed('/detail');
 
 // Navigate with arguments
-Flow.toNamed('/detail', arguments: {'id': 123});
+Flows.toNamed('/detail', arguments: {'id': 123});
 
 // Navigate to custom page
-Flow.to(NextPage());
+Flows.to(NextPage());
 
 // Navigate to custom page with arguments
-Flow.to(NextPage(), arguments: {'data': myData});
+Flows.to(NextPage(), arguments: {'data': myData});
 
 // Go back
-Flow.back();
+Flows.back();
 
 // Go back with result
-Flow.back({'result': 'success'});
+Flows.back({'result': 'success'});
 
 // Replace current route
-Flow.off(NextPage());
+Flows.off(NextPage());
 
 // Replace all routes
-Flow.offAll(NextPage());
+Flows.offAll(NextPage());
 ```
 
-#### FlowMaterialApp
+#### FlowsMaterialApp
 
 ```dart
-FlowMaterialApp(
+FlowsMaterialApp(
   debugShowCheckedModeBanner: false,
   title: 'My App',
   // Light theme
@@ -330,8 +330,8 @@ FlowMaterialApp(
   themeMode: ThemeMode.system,
   // Define routes
   pages: [
-    FlowPage(name: '/home', page: () => HomePage()),
-    FlowPage(name: '/detail', page: () => DetailPage()),
+    FlowsPage(name: '/home', page: () => HomePage()),
+    FlowsPage(name: '/detail', page: () => DetailPage()),
   ],
   initialRoute: '/home',
 )
@@ -361,10 +361,10 @@ class DetailPage extends StatelessWidget {
 
 ```dart
 // Simple snackbar (displays at top by default)
-Flow.snackbar('Title', 'Message content');
+Flows.snackbar('Title', 'Message content');
 
 // Snackbar at bottom
-Flow.snackbar(
+Flows.snackbar(
   'Info',
   'This is a message',
   snackPosition: SnackPosition.bottom,
@@ -372,7 +372,7 @@ Flow.snackbar(
 );
 
 // Custom snackbar with icon and colors
-Flow.snackbar(
+Flows.snackbar(
   'Success!',
   'Operation completed successfully',
   snackPosition: SnackPosition.top,
@@ -381,26 +381,26 @@ Flow.snackbar(
 );
 
 // Raw snackbar with full customization
-Flow.rawSnackbar(
+Flows.rawSnackbar(
   title: 'Custom',
   message: 'Fully customized snackbar',
   backgroundColor: Colors.blue,
   duration: const Duration(seconds: 5),
   mainButton: TextButton(
-    onPressed: () => Flow.back(),
+    onPressed: () => Flows.back(),
     child: const Text('ACTION'),
   ),
 );
 
 // Close all snackbars
-Flow.closeAllSnackbars();
+Flows.closeAllSnackbars();
 ```
 
 **Show a Dialog:**
 
 ```dart
 // Custom dialog
-await Flow.dialog(
+await Flows.dialog(
   Container(
     padding: const EdgeInsets.all(24),
     decoration: BoxDecoration(
@@ -415,7 +415,7 @@ await Flow.dialog(
         const Text('Custom Dialog', style: TextStyle(fontSize: 24)),
         const SizedBox(height: 16),
         ElevatedButton(
-          onPressed: () => Flow.back(),
+          onPressed: () => Flows.back(),
           child: const Text('Close'),
         ),
       ],
@@ -424,26 +424,26 @@ await Flow.dialog(
 );
 
 // Default alert dialog
-await Flow.defaultDialog(
+await Flows.defaultDialog(
   title: 'Alert',
   middleText: 'This is an alert dialog',
   textConfirm: 'OK',
   textCancel: 'Cancel',
   onConfirm: () {
     // Handle confirm
-    Flow.back();
+    Flows.back();
   },
   onCancel: () {
     // Handle cancel
-    Flow.back();
+    Flows.back();
   },
 );
 
 // Close all dialogs
-Flow.closeAllDialogs();
+Flows.closeAllDialogs();
 
 // Check if dialog is open
-if (Flow.isDialogOpen) {
+if (Flows.isDialogOpen) {
   // Dialog is currently open
 }
 ```
@@ -532,18 +532,18 @@ ever(count, (value) {
 
 ## API Reference
 
-### Flow (Dependency Injection)
+### Flows (Dependency Injection)
 
 | Method | Description |
 |--------|-------------|
-| `Flow.put<T>(instance)` | Register a dependency |
-| `Flow.putLazy<T>(factory)` | Register a lazy dependency |
-| `Flow.find<T>(name)` | Find a dependency |
-| `Flow.isRegistered<T>(name)` | Check if registered |
-| `Flow.remove<T>(name)` | Remove a dependency |
-| `Flow.disposeAll()` | Remove all dependencies |
-| `Flow.context` | Get current BuildContext |
-| `Flow.isDialogOpen` | Check if dialog is open |
+| `Flows.put<T>(instance)` | Register a dependency |
+| `Flows.putLazy<T>(factory)` | Register a lazy dependency |
+| `Flows.find<T>(name)` | Find a dependency |
+| `Flows.isRegistered<T>(name)` | Check if registered |
+| `Flows.remove<T>(name)` | Remove a dependency |
+| `Flows.disposeAll()` | Remove all dependencies |
+| `Flows.context` | Get current BuildContext |
+| `Flows.isDialogOpen` | Check if dialog is open |
 
 ### FlowController
 
@@ -592,27 +592,27 @@ ever(count, (value) {
 
 | Method | Description |
 |--------|-------------|
-| `Flow.to(page)` | Navigate to page |
-| `Flow.toNamed(name)` | Navigate to named route |
-| `Flow.back()` | Go back |
-| `Flow.off(page)` | Replace current route |
-| `Flow.offAll(page)` | Replace all routes |
+| `Flows.to(page)` | Navigate to page |
+| `Flows.toNamed(name)` | Navigate to named route |
+| `Flows.back()` | Go back |
+| `Flows.off(page)` | Replace current route |
+| `Flows.offAll(page)` | Replace all routes |
 
 ### Snackbar
 
 | Method | Description |
 |--------|-------------|
-| `Flow.snackbar(title, message)` | Show snackbar with custom position |
-| `Flow.rawSnackbar(...)` | Show fully customized snackbar |
-| `Flow.closeAllSnackbars()` | Close all open snackbars |
+| `Flows.snackbar(title, message)` | Show snackbar with custom position |
+| `Flows.rawSnackbar(...)` | Show fully customized snackbar |
+| `Flows.closeAllSnackbars()` | Close all open snackbars |
 
 ### Dialog
 
 | Method | Description |
 |--------|-------------|
-| `Flow.dialog(widget)` | Show custom dialog |
-| `Flow.defaultDialog(...)` | Show default alert dialog |
-| `Flow.closeAllDialogs()` | Close all open dialogs |
+| `Flows.dialog(widget)` | Show custom dialog |
+| `Flows.defaultDialog(...)` | Show default alert dialog |
+| `Flows.closeAllDialogs()` | Close all open dialogs |
 
 ### RxWorkers
 
@@ -633,20 +633,20 @@ Fast Flows is inspired by GetX but with a cleaner API. Here's how to migrate:
 
 | GetX | Fast Flows |
 |------|------------|
-| `Get.put()` | `Flow.put()` |
-| `Get.find()` | `Flow.find()` |
-| `Get.isRegistered()` | `Flow.isRegistered()` |
-| `Get.delete()` | `Flow.remove()` |
-| `Get.to()` | `Flow.to()` |
-| `Get.toNamed()` | `Flow.toNamed()` |
-| `Get.back()` | `Flow.back()` |
-| `Get.off()` | `Flow.off()` |
-| `Get.offAll()` | `Flow.offAll()` |
+| `Get.put()` | `Flows.put()` |
+| `Get.find()` | `Flows.find()` |
+| `Get.isRegistered()` | `Flows.isRegistered()` |
+| `Get.delete()` | `Flows.remove()` |
+| `Get.to()` | `Flows.to()` |
+| `Get.toNamed()` | `Flows.toNamed()` |
+| `Get.back()` | `Flows.back()` |
+| `Get.off()` | `Flows.off()` |
+| `Get.offAll()` | `Flows.offAll()` |
 | `GetX<Controller>` | `Flx(() => ...)` |
 | `Obx(() => ...)` | `Flx(() => ...)` |
 | `RxInt`, `RxString`, etc. | Same, using `.obs` extension |
-| `GetMaterialApp` | `FlowMaterialApp` |
-| `GetPage` | `FlowPage` |
+| `GetMaterialApp` | `FlowsMaterialApp` |
+| `GetPage` | `FlowsPage` |
 
 ### Migration Example
 
@@ -670,7 +670,7 @@ class Controller extends FlowController {
   void increment() => count.value++;
 }
 
-Flow.put(Controller());
+Flows.put(Controller());
 Flx(() => Text('Count: ${logic.state.count.value}'));
 ```
 
@@ -710,19 +710,19 @@ void onClose() {
 
 ```dart
 // Faster
-Flow.toNamed('/detail', arguments: {'id': 123});
+Flows.toNamed('/detail', arguments: {'id': 123});
 
 // Slower
-Flow.to(DetailPage(id: 123));
+Flows.to(DetailPage(id: 123));
 ```
 
 ## Example Application
 
 The `example/` directory contains a complete sample application demonstrating all features:
 
-- Dependency Injection with `Flow.put`/`Flow.find`
+- Dependency Injection with `Flows.put`/`Flows.find`
 - Reactive State Management with `Rx` types and `Flx` widgets
-- Route Management with `Flow.to`/`Flow.toNamed`
+- Route Management with `Flows.to`/`Flows.toNamed`
 - Logic/State/View separation pattern
 - Light/Dark theme switching
 - Passing and editing objects between routes
@@ -744,7 +744,7 @@ Fast Flows includes a comprehensive test suite covering all core functionality m
 flutter test
 
 # Run specific test file
-flutter test test/core/flow_test.dart
+flutter test test/core/flows_test.dart
 flutter test test/rx/rx_types_test.dart
 flutter test test/state_manager/flx_test.dart
 
@@ -756,14 +756,14 @@ flutter test --coverage
 
 | Module | Test File | Tests |
 |--------|-----------|-------|
-| Core - Flow | `test/core/flow_test.dart` | 17 |
+| Core - Flows | `test/core/flows_test.dart` | 17 |
 | Core - Lifecycle | `test/core/lifecycle_test.dart` | 5 |
 | RX Types | `test/rx/rx_types_test.dart` | 27 |
 | RX List | `test/rx/rx_list_test.dart` | 14 |
 | RX Map | `test/rx/rx_map_test.dart` | 13 |
-| State Management | `test/state_manager/flow_controller_test.dart` | 14 |
+| State Management | `test/state_manager/flows_controller_test.dart` | 14 |
 | Flx Widgets | `test/state_manager/flx_test.dart` | 15 |
-| Navigation | `test/navigation/flow_page_test.dart` | 13 |
+| Navigation | `test/navigation/flows_page_test.dart` | 13 |
 | **Total** | | **281** |
 
 All tests pass, ensuring library stability and reliability.
